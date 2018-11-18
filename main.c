@@ -5,8 +5,6 @@
 
 //Step once (512 per rotation), in direction (1 for CW, -1 for CCW)
 void stepOnce(GPIO_Handle gpio, int direction) {
-    int counter = 0;
-
     for (int a = 0; a < 8; ++a) {
         for (int i = 0; i < 4; ++i) {
             int index = direction == 1 ? i : 7 - i;
@@ -28,6 +26,7 @@ int main() {
     for (int i = 0; i < 4; ++i)
         setToOutput(gpio, stepperPin[i]);
 
+    //Testing for stepper motor
     for (int i = 0; i < 512; ++i) {
         stepOnce(gpio, 1);
     }
