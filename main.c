@@ -3,30 +3,20 @@
 #include "gpio/gpio_helper.h"
 #include "constants.h"
 
-#include <stdlib.h>
-#include <unistd.h>
-
 //Step once (512 per rotation), in direction (1 for CW, -1 for CCW)
 void stepOnce(GPIO_Handle gpio, int direction) {
     int counter = 0;
-    while (1) {
+    for (int a = 0; a < 8; ++a) {
         for (int i = 0; i < 4; ++i) {
             int pin = stepperPin[i];
-            if (stepperSeq[counter][pin] != 0)
+            if (stepperSeq[a][pin])
                 outputOn(gpio, pin);
             else
                 outputOff(gpio, pin);
         }
-        counter += direction;
-
-        // Restart cycle
-        if (counter >= stepperCount)
-            counter = 0;
-        if (counter < 0)
-            counter = stepperCount + direction;
+        usleep(750);
     }
 }
-
 int main() {
 
     //Initialize the GPIO pins
@@ -38,7 +28,6 @@ int main() {
 
     for (int i = 0; i < 512; ++i) {
         stepOnce(gpio, 1);
-        usleep(750);
     }
 
     return 0;
