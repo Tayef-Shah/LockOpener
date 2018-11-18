@@ -9,12 +9,12 @@ void stepOnce(GPIO_Handle gpio, int direction) {
     for (int a = 0; a < 8; ++a) {
         for (int i = 0; i < 4; ++i) {
             int pin = stepperPin[i];
-            if (stepperSeq[a][pin])
+            if (stepperSeq[a][i])
                 outputOn(gpio, pin);
             else
                 outputOff(gpio, pin);
         }
-        usleep(750);
+        usleep(1000);
     }
 }
 int main() {
@@ -29,6 +29,10 @@ int main() {
     for (int i = 0; i < 512; ++i) {
         stepOnce(gpio, 1);
     }
+
+    // Reset GPIO Pins
+    for (int i = 0; i < 4; ++i)
+        outputOff(gpio, stepperPin[i]);
 
     return 0;
 }
