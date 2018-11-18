@@ -9,7 +9,6 @@
 
 // Program Constants
 const int stepperPin[4] = {17, 22, 23, 24};
-const int stepperCount = 8;
 const int stepperSeq[8][4] = { {1,0,0,1},
                              {1,0,0,0},
                              {1,1,0,0},

@@ -6,10 +6,12 @@
 //Step once (512 per rotation), in direction (1 for CW, -1 for CCW)
 void stepOnce(GPIO_Handle gpio, int direction) {
     int counter = 0;
+
     for (int a = 0; a < 8; ++a) {
         for (int i = 0; i < 4; ++i) {
-            int pin = stepperPin[i];
-            if (stepperSeq[a][i])
+            int index = direction == 1 ? i : 7 - i;
+            int pin = stepperPin[index];
+            if (stepperSeq[a][index])
                 outputOn(gpio, pin);
             else
                 outputOff(gpio, pin);
