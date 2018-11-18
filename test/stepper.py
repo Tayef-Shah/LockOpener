@@ -35,7 +35,7 @@ StepPins = [17,22,23,24]
 # Set all pins as output
 for pin in StepPins:
   #print "Setup pins"
-  GPIO.setup(pin,GPIO.OUT)
+  GPIO.setup(pin, GPIO.OUT)
   GPIO.output(pin, False)
 
 # Define advanced sequence
