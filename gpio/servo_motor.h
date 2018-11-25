@@ -23,6 +23,7 @@ void setServoPosition(FILE* file, double percentage) {
 
 	printf("Setting Servo Position:\n%d=%f (Percentage: %f)\n", SERVOPIN, SERVOMIN + ((SERVOMAX - SERVOMIN) * percentage), percentage);
 	fprintf(file, "%d=%f\n", SERVOPIN, SERVOMIN + ((SERVOMAX - SERVOMIN) * percentage));
+	fflush(file);
 }
 
 #endif
