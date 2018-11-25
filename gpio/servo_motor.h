@@ -13,6 +13,8 @@ const double SERVOMAX = 0.2;
 
 FILE* servoInit() {
 	FILE* file = fopen(PIBLASTER_FILE, "w");
+	if (file == NULL)
+		errorMessage(ERR_FILE_OPEN_FAILED);
 	printf("Servo Init: %p\n", file);
 	return file;
 }

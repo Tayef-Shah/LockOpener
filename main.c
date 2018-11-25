@@ -24,9 +24,9 @@ int main() {
 
 	//Testing
 	testStepper(gpio);
-	usleep(500000);
+	usleep(1000000);
 	testServo(piBlaster);
-	usleep(500000);
+	usleep(1000000);
 
     return 0;
 }
@@ -43,9 +43,9 @@ void testStepper(GPIO_Handle gpio) {
 		outputOff(gpio, STEPPER_PIN[i]);
 }
 
-// Set servo to max, sleep 1 second, then set it to min
+// Set servo to max, sleep 2 second, then set it to min
 void testServo(FILE* file) {
 	setServoPosition(file, 1);
-	usleep(10000000);
+	usleep(2000000);
 	setServoPosition(file, 0);
 }

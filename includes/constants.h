@@ -7,6 +7,7 @@
 #define ERR_GPIO_FAILED 3
 #define ERR_INVALID_PIN 4
 #define ERR_INCORRECT_PERCENTAGE 5
+#define ERR_FILE_OPEN_FAILED 6
 
 //Output error message and exit
 void errorMessage(const int errorCode)
