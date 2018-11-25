@@ -22,6 +22,9 @@ int main() {
 	//Initialize Stepper Motor
 	stepperInit(gpio);
 
+	printf("Starting in 3 seconds...\n");
+	usleep(3000000);
+
 	//Testing
 	testStepper(gpio);
 	usleep(1000000);
