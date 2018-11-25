@@ -16,7 +16,7 @@ if (!empty($_GET)) {
 	if(!$queryRet) {
 	    echo $db->lastErrorMsg();
 	} else {
-	    echo "Upserted data for {$i}";
+	    echo "Upserted data for {$id}";
 	}
 	$db->close();
 }
