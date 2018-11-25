@@ -14,9 +14,9 @@
 	$sql =<<<EOF
 	CREATE TABLE IF NOT EXISTS data (
         id INTEGER PRIMARY KEY UNIQUE,
-        num1 INT(32),
-        num2 INT(32),
-        num3 INT(32)
+        num1 INTEGER,
+        num2 INTEGER,
+        num3 INTEGER
     );
 	
 	CREATE TABLE IF NOT EXISTS log (
@@ -28,14 +28,16 @@
 	CREATE TABLE IF NOT EXISTS commands (
         id INTEGER PRIMARY KEY AUTOINCREMENT UNIQUE,
         data TEXT,
+        completed INTEGER DEFAULT (0),
         time TIME DEFAULT (CURRENT_TIME) 
     );
 EOF;
+
    $ret = $db->exec($sql);
    if(!$ret){
       die($db->lastErrorMsg());
    }
 
-   echo "Yeah!";
+   echo "Connected and... ";
 
 ?>

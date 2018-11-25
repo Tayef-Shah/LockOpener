@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <sqlite3.h>
 
 #include "gpio/gpiolib_addr.h"
 #include "gpio/gpiolib_reg.h"
@@ -30,6 +31,11 @@ int main() {
 	usleep(1000000);
 	testServo(piBlaster);
 	usleep(1000000);
+
+	// Program
+	while (1) {
+		// Check DB for commands
+	}
 
     return 0;
 }
