@@ -12,8 +12,8 @@ const double SERVOMIN = 0.04;
 const double SERVOMAX = 0.2;
 
 FILE* servoInit() {
-	FILE* file = fopen("test.txt", "w");
-	printf("%p", file);
+	FILE* file = fopen(PIBLASTER_FILE, "w");
+	printf("Servo Init: %p\n", file);
 	return file;
 }
 
