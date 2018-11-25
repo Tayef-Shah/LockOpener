@@ -7,5 +7,5 @@ if (!empty($_GET)) {
 
 <form action="index.php" method="get">
 	<input type="number" required value="0" placeholder="0" id="id"></input>
-	<input type="button" value="Open Lock"></input>
+	<input type="submit" value="Open Lock"></input>
 </form>

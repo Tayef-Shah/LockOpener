@@ -13,5 +13,5 @@ if (!empty($_GET)) {
 	<input type="number" required id="num1" placeholder="xx"></input>
 	<input type="number" required id="num2" placeholder="xx"></input>
 	<input type="number" required id="num3" placeholder="xx"></input>
-	<input type="button" value="Save Combination"></input>
+	<input type="submit" value="Save Combination"></input>
 </form>
