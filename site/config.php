@@ -9,9 +9,9 @@ if (!empty($_GET)) {
 ?>
 
 <form action="config.php" method="get">
-	<input type="number" required id="id" value="0" placeholder="0"></input>
-	<input type="number" required id="num1" placeholder="xx"></input>
-	<input type="number" required id="num2" placeholder="xx"></input>
-	<input type="number" required id="num3" placeholder="xx"></input>
+	<input type="number" required name="id" value="0" placeholder="0"></input>
+	<input type="number" required name="num1" placeholder="xx"></input>
+	<input type="number" required name="num2" placeholder="xx"></input>
+	<input type="number" required name="num3" placeholder="xx"></input>
 	<input type="submit" value="Save Combination"></input>
 </form>
