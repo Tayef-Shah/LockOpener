@@ -13,6 +13,7 @@ const double SERVOMAX = 0.2;
 
 FILE* servoInit() {
 	FILE* file = fopen("test.txt", "w");
+	printf("%p", file);
 	return file;
 }
 
