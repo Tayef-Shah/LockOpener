@@ -13,20 +13,20 @@
 	// Create Tables (if not exists)
 	$sql =<<<EOF
 	CREATE TABLE IF NOT EXISTS data (
-        id INT(32) PRIMARY KEY UNIQUE,
+        id INTEGER PRIMARY KEY UNIQUE,
         num1 INT(32),
         num2 INT(32),
         num3 INT(32)
     );
 	
 	CREATE TABLE IF NOT EXISTS log (
-        id INT(32) PRIMARY KEY AUTOINCREMENT UNIQUE,
+        id INTEGER PRIMARY KEY AUTOINCREMENT UNIQUE,
         data TEXT,
         time TIME DEFAULT (CURRENT_TIME) 
     );
 	
 	CREATE TABLE IF NOT EXISTS commands (
-        id INT(32) PRIMARY KEY AUTOINCREMENT UNIQUE,
+        id INTEGER PRIMARY KEY AUTOINCREMENT UNIQUE,
         data TEXT,
         time TIME DEFAULT (CURRENT_TIME) 
     );
