@@ -16,6 +16,7 @@ void setServoPosition(FILE* file, double percentage) {
 	if (percentage < 0 || percentage > 1)
 		errorMessage(ERR_INCORRECT_PERCENTAGE);
 
+	printf("Setting Servo Position:\n%d=%f\n", SERVOPIN, SERVOMIN + ((SERVOMAX - SERVOMIN) * percentage));
 	fprintf(file, "%d=%f\n", SERVOPIN, SERVOMIN + ((SERVOMAX - SERVOMIN) * percentage));
 }
 
