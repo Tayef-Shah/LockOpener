@@ -17,7 +17,7 @@ int main() {
     GPIO_Handle gpio = initializeGPIO();
 
 	//Initialize Pi-Blaster file
-	FILE* piBlaster = fopen(PIBLASTER_FILE, "w");
+	FILE* piBlaster = servoInit();
 
 	//Initialize Stepper Motor
 	stepperInit(gpio);
