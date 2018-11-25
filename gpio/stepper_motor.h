@@ -23,7 +23,7 @@ void stepperInit(GPIO_Handle gpio) {
 }
 
 //Step once (512 per rotation), in direction (1 for CW, -1 for CCW)
-void stepOnce(GPIO_Handle gpio, int direction) {
+void stepStepperOnce(GPIO_Handle gpio, int direction) {
     for (int a = 0; a < 8; ++a) {
         for (int i = 0; i < 4; ++i) {
             int index = direction == 1 ? i : 7 - i;

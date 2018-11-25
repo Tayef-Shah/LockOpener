@@ -1,3 +1,5 @@
+#include <stdio.h>
+
 #include "gpio/gpiolib_addr.h"
 #include "gpio/gpiolib_reg.h"
 #include "gpio/gpio_helper.h"
@@ -22,7 +24,9 @@ int main() {
 
 	//Testing
 	testStepper(gpio);
+	usleep(1000000);
 	testServo(piBlaster);
+	usleep(1000000);
 
     return 0;
 }
@@ -31,7 +35,7 @@ int main() {
 void testStepper(GPIO_Handle gpio) {
 	//Testing for stepper motor
 	for (int i = 0; i < 512; ++i) {
-		stepOnce(gpio, 1);
+		stepStepperOnce(gpio, 1);
 	}
 
 	// Reset GPIO Pins
@@ -41,8 +45,7 @@ void testStepper(GPIO_Handle gpio) {
 
 // Set servo to max, sleep 1 second, then set it to min
 void testServo(FILE* file) {
-	setPosition(file, 1);
-	usleep(1000000);
-	setPosition(file, 0);
-	usleep(1000000);
+	setServoPosition(file, 1);
+	usleep(10000000);
+	setServoPosition(file, 0);
 }
