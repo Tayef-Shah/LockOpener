@@ -4,14 +4,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-#include "../constants.h"
-
-//Output error message and exit
-void errorMessage(const int errorCode)
-{
-    fprintf(stderr, "An error occured; the error code was %d \n", errorCode);
-    exit(-1);
-}
+#include "../includes/constants.h"
 
 //Initialize the GPIO pins
 GPIO_Handle initializeGPIO()

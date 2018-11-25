@@ -3,26 +3,46 @@
 #include "gpio/gpio_helper.h"
 
 #include "gpio/stepper_motor.h"
+#include "gpio/servo_motor.h"
 
-#include "constants.h"
+#include "includes/constants.h"
 
+void testStepper(GPIO_Handle gpio);
+void testServo(FILE* file);
 int main() {
 
     //Initialize the GPIO pins
     GPIO_Handle gpio = initializeGPIO();
 
-    //Set Stepper motor to output
-    for (int i = 0; i < 4; ++i)
-        setToOutput(gpio, stepperPin[i]);
+	//Initialize Pi-Blaster file
+	FILE* piBlaster = fopen(PIBLASTER_FILE, "w");
 
-    //Testing for stepper motor
-    for (int i = 0; i < 512; ++i) {
-        stepOnce(gpio, 1);
-    }
+	//Initialize Stepper Motor
+	stepperInit(gpio);
 
-    // Reset GPIO Pins
-    for (int i = 0; i < 4; ++i)
-        outputOff(gpio, stepperPin[i]);
+	//Testing
+	testStepper(gpio);
+	testServo(piBlaster);
 
     return 0;
+}
+
+// Spin Stepper Motor 180 Degrees
+void testStepper(GPIO_Handle gpio) {
+	//Testing for stepper motor
+	for (int i = 0; i < 512; ++i) {
+		stepOnce(gpio, 1);
+	}
+
+	// Reset GPIO Pins
+	for (int i = 0; i < 4; ++i)
+		outputOff(gpio, STEPPER_PIN[i]);
+}
+
+// Set servo to max, sleep 1 second, then set it to min
+void testServo(FILE* file) {
+	setPosition(file, 1);
+	usleep(1000000);
+	setPosition(file, 0);
+	usleep(1000000);
 }
