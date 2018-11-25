@@ -24,9 +24,9 @@ int main() {
 
 	//Testing
 	testStepper(gpio);
-	usleep(1000000);
+	usleep(500000);
 	testServo(piBlaster);
-	usleep(1000000);
+	usleep(500000);
 
     return 0;
 }
