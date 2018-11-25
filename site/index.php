@@ -7,7 +7,7 @@ if (!empty($_GET)) {
 	
 	$query = "
 		INSERT INTO commands (data)
-		VALUES ({$command});
+		VALUES ('{$command}');
 	";
 
 	$queryRet = $db->exec($query);
