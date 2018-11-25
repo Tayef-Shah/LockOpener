@@ -11,7 +11,6 @@
 	}
 
 	// Create Tables (if not exists)
-	// Data table, this is for user config
 	$sql =<<<EOF
 	CREATE TABLE IF NOT EXISTS data (
         id INT(32) PRIMARY KEY UNIQUE,
@@ -19,29 +18,15 @@
         num2 INT(32),
         num3 INT(32)
     );
-EOF;
-   $ret = $db->exec($sql);
-   if(!$ret){
-      die($db->lastErrorMsg());
-   }
-
-   // Log table
-   	$sql =<<<EOF
+	
 	CREATE TABLE IF NOT EXISTS log (
-        id INT(32) PRIMARY KEY UNIQUE,
+        id INT(32) PRIMARY KEY UNIQUE AUTOINCREMENT,
         data TEXT,
         time TIME DEFAULT (CURRENT_TIME) 
     );
-EOF;
-   $ret = $db->exec($sql);
-   if(!$ret){
-      die($db->lastErrorMsg());
-   }
-
-   // Command Queue table
-   	$sql =<<<EOF
+	
 	CREATE TABLE IF NOT EXISTS commands (
-        id INT(32) PRIMARY KEY UNIQUE,
+        id INT(32) PRIMARY KEY UNIQUE AUTOINCREMENT,
         data TEXT,
         time TIME DEFAULT (CURRENT_TIME) 
     );

@@ -1,7 +1,22 @@
 <?php
+require_once 'db.php';
+
 if (!empty($_GET)) {
 	$id = $_GET["id"];
-	echo $id;
+	$command = "OPEN " + $id;
+	
+	$query = "
+		INSERT INTO commands (data)
+		VALUES ({$command});
+	";
+
+	$queryRet = $db->exec($query);
+	if(!$queryRet) {
+	    echo $db->lastErrorMsg();
+	} else {
+	    echo "Command Sent\n";
+	}
+	$db->close();
 }
 ?>
 

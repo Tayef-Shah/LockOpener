@@ -1,10 +1,24 @@
 <?php
+require_once 'db.php';
+
 if (!empty($_GET)) {
 	$id = $_GET["id"];
 	$num1 = $_GET["num1"];
 	$num2 = $_GET["num2"];
 	$num3 = $_GET["num3"];
-	echo $id;
+
+	$query = "
+		INSERT OR REPLACE INTO data (id, num1, num2, num3)
+		VALUES ({$id}, {$num1}, {$num2}, {$num3});
+	";
+
+	$queryRet = $db->exec($query);
+	if(!$queryRet) {
+	    echo $db->lastErrorMsg();
+	} else {
+	    echo "Upserted data for {$i}";
+	}
+	$db->close();
 }
 ?>
 
