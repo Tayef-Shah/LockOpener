@@ -78,6 +78,14 @@ $db->close();
 		</div>
 
 		<div id="body">
+		
+			<form action="config.php" method="post">
+				<input type="hidden" id="createLock" name="createLock" value="<?php echo ($lastId + 1); ?>">
+				<div class="form-group">
+					<input type="submit" value="Create New Lock" class="btn btn-info formInput"></input>
+				</div>
+			</form>
+			<hr/>
 			<form action="config.php" method="get">
 				<div class="form-group">
 					<label for="idSelect">Select Lock:</label>
@@ -103,12 +111,6 @@ $db->close();
 				</div>
 				<div class="form-group">
 					<input type="submit" value="Update Combination" class="btn btn-success formInput"></input>
-				</div>
-			</form>
-			<form action="config.php" method="post">
-				<input type="hidden" id="createLock" name="createLock" value="<?php ($lastId + 1) ?>">
-				<div class="form-group">
-					<input type="submit" value="Create New Lock" class="btn btn-info formInput"></input>
 				</div>
 			</form>
 
