@@ -46,10 +46,10 @@ while ($row = $select->fetchArray(SQLITE3_ASSOC)) {
 	<body>
 		<div id="header">
 			<div class="headerItem activeHeader" id="leftItem">
-				Home
+				<a href="index.php">Home</a>
 			</div>
 			<div class="headerItem" id="rightItem">
-				Config
+				<a href="config.php">Config</a>
 			</div>
 		</div>
 

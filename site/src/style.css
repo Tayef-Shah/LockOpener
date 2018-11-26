@@ -11,13 +11,17 @@
 }
 
 .headerItem {
-	line-height: 240px;
-	height: 100%;
-	width: 50%;
-	float: left;
-	text-align: center;
-	font-size: 32px;
+line-height: 100px;
+    height: 100%;
+    width: 50%;
+    float: left;
+    text-align: center;
+    font-size: 20px;
+    text-transform: uppercase;
 }
 .activeHeader {
 	background-color: #007bff21;
+}
+.headerItem a {
+	text-decoration: none;
 }
