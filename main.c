@@ -16,6 +16,7 @@ struct LockOpener {
 	GPIO_Handle gpio;
 	FILE* piBlaster;
 	sqlite3* db;
+	sqlite3_stmt *stmt;
 	char* zErrMsg;
 };
 
@@ -23,26 +24,23 @@ void testStepper(GPIO_Handle gpio);
 void testServo(FILE* file);
 
 static int commandsQueued(void *cbArgs, int argc, char **argv, char **azColName) {
+	char* data;
+
+	// Process Inputs
+	printf("Command Recieved:\n");
 	for (int i = 0; i < argc; i++) {
-		if (!strncmp(azColName[i], "completed", 9)) {
-			printf("%s = %s\n", azColName[i], argv[i] ? argv[i] : "NULL");
-
-			//Testing
-			printf("Starting in 3 seconds...\n");
-			usleep(3000000);
-
-			testStepper(((struct LockOpener*) cbArgs)->gpio);
-			usleep(1000000);
-			testServo(((struct LockOpener*) cbArgs)->piBlaster);
-			usleep(1000000);
-
-			// Update DB
-			char* query = "UPDATE commands SET completed = 1 WHERE completed = 0;";
-			if (sqlite3_exec(((struct LockOpener*) cbArgs)->db, query, 0, 0, &(((struct LockOpener*) cbArgs)->zErrMsg)) != SQLITE_OK) {
-				errorMessage(ERR_DATABASE_QUERY_FAILED);
-			}
+		printf("%s = %s\n", azColName[i], argv[i] ? argv[i] : "NULL");
+		if (!strncmp(azColName[i], "data", 4)) {
+			data = argv[i];
 		}
 	}
+
+	// Set command as finished in DB
+	char* query = "UPDATE commands SET completed = 1 WHERE id = ?;";
+	sqlite3_prepare(((struct LockOpener*) cbArgs)->db, query, -1, &(((struct LockOpener*) cbArgs)->stmt), NULL);
+	sqlite3_bind_text(((struct LockOpener*) cbArgs)->stmt, 1, data, strlen(data), SQLITE_TRANSIENT);
+	sqlite3_step(((struct LockOpener*) cbArgs)->stmt);
+
 	return 0;
 }
 
