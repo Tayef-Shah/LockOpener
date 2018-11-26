@@ -52,19 +52,20 @@ int main() {
 	//Initialize Stepper Motor
 	stepperInit(lockOpener.gpio);
 
-	//Initialize SQLite DB
-	lockOpener.zErrMsg = 0;
-	if (sqlite3_open(SQLITE_DB, &(lockOpener.db))) {
-		errorMessage(ERR_DATABASE_OPEN_FAILED);
-	}
-
 	// Program
 	while (1) {
+		//Initialize SQLite DB
+		lockOpener.zErrMsg = 0;
+		if (sqlite3_open(SQLITE_DB, &(lockOpener.db))) {
+			errorMessage(ERR_DATABASE_OPEN_FAILED);
+		}
 		// Check DB for commands
 		char* query = "SELECT * FROM commands WHERE completed == 0;";
 		if (sqlite3_exec(lockOpener.db, query, commandsQueued, &lockOpener, &(lockOpener.zErrMsg)) != SQLITE_OK) {
 			errorMessage(ERR_DATABASE_QUERY_FAILED);
 		}
+		sqlite3_close(lockOpener.db);
+		usleep(1000000);
 	}
 
     return 0;
