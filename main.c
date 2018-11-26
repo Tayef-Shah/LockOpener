@@ -29,16 +29,16 @@ static int gotCombo(void *cbArgs, int argc, char **argv, char **azColName) {
 	printf("Got Combo:\n");
 	for (int i = 0; i < argc; i++) {
 		printf("%s = %s\n", azColName[i], argv[i] ? argv[i] : "NULL");
-		if (!strncmp(azColName[i], "num1", 3)) {
+		if (!strncmp(azColName[i], "num1", 4)) {
 			num1 = (int)strtol(argv[i], (char **)NULL, 10);
-		} else if (!strncmp(azColName[i], "num2", 3)) {
+		} else if (!strncmp(azColName[i], "num2", 4)) {
 			num2 = (int)strtol(argv[i], (char **)NULL, 10);
-		} else if (!strncmp(azColName[i], "num3", 3)) {
+		} else if (!strncmp(azColName[i], "num3", 4)) {
 			num3 = (int)strtol(argv[i], (char **)NULL, 10);
 		}
 	}
 
-	printf("Parsed:\n%d-%d-%d\n", num1, num2, num3);
+	printf("Parsed:\n%d - %d - %d\n", num1, num2, num3);
 	fflush(stdout);
 	return 0;
 }
