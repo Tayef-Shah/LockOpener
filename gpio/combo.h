@@ -2,17 +2,15 @@
 #define COMBO_H
 
 #include <math.h>
+#include <stdlib.h>
 #include "stepper_motor.h"
 #include "servo_motor.h"
 
 
-int rotate(GPIO_Handle gpio, int degs, int max){  //Argument is in the degrees of the lock
-    int stepDegree = (512/max)*degs;
-    //if(stepDegree < 0 || stepDegree > max){
-    //    return - 1; //Arugment error
-    //}
+int rotate(GPIO_Handle gpio, int ticks, int max){  //Argument is in the degrees of the lock
+    int stepDegree = (512/max)*abs(ticks);
     for(int i = 0; i < stepDegree; ++i){
-        stepStepperOnce(gpio, 1);
+        stepStepperOnce(gpio, ticks < 0 ? -1 : 1);
     }
     return 0;
 }
@@ -34,7 +32,7 @@ int turn(GPIO_Handle gpio, int max, int first, int second, int third){
     rotate(gpio, -(2 * max + first) , max);             //First rotation to first number, SETS to zero 
 	printf("Rotate: %d\n", -(2 * max + first));
 	fflush(stdout);
-    
+    /*
     //(CW) Second rotation to second number, SETS to zero
     rotate(gpio, max, max);
 	printf("Rotate: %d\n", max);
@@ -62,7 +60,7 @@ int turn(GPIO_Handle gpio, int max, int first, int second, int third){
 		printf("Rotate: %d\n", third - second);
 		fflush(stdout);
     }
-
+	*/
     return 0;
 }
 
