@@ -7,7 +7,7 @@
 
 
 int rotate(GPIO_Handle gpio, int degs, int max){  //Argument is in the degrees of the lock
-    int stepDegree = (521/max)*degs;
+    int stepDegree = (512/max)*degs;
     if(stepDegree < 0 || stepDegree > max){
         return - 1; //Arugment error
     }
@@ -17,7 +17,9 @@ int rotate(GPIO_Handle gpio, int degs, int max){  //Argument is in the degrees o
     return 0;
 }
 
-int turn(int max, int first, int second, int third){
+int turn(GPIO_Handle gpio, int max, int first, int second, int third){
+	printf("Started Turning:\n");
+	fflush(stdout);
 
     if(first < 0 || second < 0 || third < 0 || max < 0){    //Argument check for NO NEGATIVE arguments
         return -1;
@@ -29,39 +31,58 @@ int turn(int max, int first, int second, int third){
     //Motor turns closewise looking directly at it
 
     //CCW looking directly at motor
-    rotate(-2*max + first , max);             //First rotation to first number, SETS to zero 
+    rotate(gpio, -(2 * max + first) , max);             //First rotation to first number, SETS to zero 
+	printf("Rotate: %d\n", -(2 * max + first));
+	fflush(stdout);
     
     //(CW) Second rotation to second number, SETS to zero
-    rotate(max, max);
+    rotate(gpio, max, max);
+	printf("Rotate: %d\n", max);
+	fflush(stdout);
     if(first > second){
-        rotate(first-second, max);
+        rotate(gpio, first-second, max);
+		printf("Rotate: %d\n", first - second);
+		fflush(stdout);
     } else {
-        rotate(first, max);
-        rotate(max-second, max);
+        rotate(gpio, first, max);
+		printf("Rotate: %d\n", first);
+		fflush(stdout);
+        rotate(gpio, max-second, max);
+		printf("Rotate: %d\n", max - second);
+		fflush(stdout);
     }
 
     //Roatation to last number
-    if(second > third){
-        rotate(max-(second-third) , max);
+    if(second > third) {
+        rotate(gpio, max-(second-third), max);
+		printf("Rotate: %d\n", max - (second - third));
+		fflush(stdout);
     } else {
-        rotate(third-second , max);        
+        rotate(gpio, third-second, max);
+		printf("Rotate: %d\n", third - second);
+		fflush(stdout);
     }
 
     return 0;
 }
 
 //Brings lock back to zero based on the final number it lands on
-int reset(int starting, int max){
+int reset(GPIO_Handle gpio, int starting, int max){
     if(starting < 0){
         return -1;
     }
-    rotate(starting, max);
+    rotate(gpio, starting, max);
+
+	// Reset GPIO Pins
+	for (int i = 0; i < 4; ++i)
+		outputOff(gpio, STEPPER_PIN[i]);
     return 0;
 }
 
 //Turns the servo motor
-int pull(){
-    setServoPosition(1);
+int pull(FILE* piblaster){
+	setServoPosition(piblaster, 0);
+    setServoPosition(piblaster, 1);
     //how to check if it didn't work?
     return 0;
 }

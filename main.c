@@ -9,8 +9,12 @@
 
 #include "gpio/stepper_motor.h"
 #include "gpio/servo_motor.h"
+#include "gpio/combo.h"
 
 #include "includes/constants.h"
+
+void testStepper(GPIO_Handle gpio);
+void testServo(FILE* file);
 
 struct LockOpener {
 	GPIO_Handle gpio;
@@ -19,9 +23,6 @@ struct LockOpener {
 	sqlite3_stmt *stmt;
 	char* zErrMsg;
 };
-
-void testStepper(GPIO_Handle gpio);
-void testServo(FILE* file);
 
 static int gotCombo(void *cbArgs, int argc, char **argv, char **azColName) {
 	int num1 = -1, num2 = -1, num3 = -1;
@@ -40,6 +41,10 @@ static int gotCombo(void *cbArgs, int argc, char **argv, char **azColName) {
 
 	printf("Parsed:\n%d - %d - %d\n\n", num1, num2, num3);
 	fflush(stdout);
+
+	turn(((struct LockOpener*) cbArgs)->gpio, LOCK_MAX_VAL, num1, num2, num3);
+	reset(((struct LockOpener*) cbArgs)->gpio, num3, LOCK_MAX_VAL);
+
 	return 0;
 }
 

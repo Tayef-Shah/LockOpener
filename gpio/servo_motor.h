@@ -20,13 +20,14 @@ FILE* servoInit() {
 }
 
 // Turn the servo, in percentage from 0 to 1
-void setServoPosition(FILE* file, double percentage) {
+void setServoPosition(FILE* piblaster, double percentage) {
 	if (percentage < 0 || percentage > 1)
 		errorMessage(ERR_INCORRECT_PERCENTAGE);
 
 	printf("Setting Servo Position:\n%d=%f (Percentage: %f)\n", SERVOPIN, SERVOMIN + ((SERVOMAX - SERVOMIN) * percentage), percentage);
-	fprintf(file, "%d=%f\n", SERVOPIN, SERVOMIN + ((SERVOMAX - SERVOMIN) * percentage));
-	fflush(file);
+	fprintf(piblaster, "%d=%f\n", SERVOPIN, SERVOMIN + ((SERVOMAX - SERVOMIN) * percentage));
+	fflush(piblaster);
+	usleep(1000000);
 }
 
 #endif

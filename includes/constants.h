@@ -12,7 +12,7 @@
 #define ERR_DATABASE_QUERY_FAILED 8
 
 const char* SQLITE_DB = "site/database/db.db3";
-const int MAX_VAL = 40;
+const int LOCK_MAX_VAL = 40;
 
 //Output error message and exit
 void errorMessage(const int errorCode)
