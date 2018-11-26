@@ -30,6 +30,7 @@ static int gotCombo(void *cbArgs, int argc, char **argv, char **azColName) {
 
 static int commandsQueued(void *cbArgs, int argc, char **argv, char **azColName) {
 	char* data = 0;
+	char query[1024];
 
 	// Parse DB Data
 	printf("Command Recieved:\n");
@@ -41,7 +42,7 @@ static int commandsQueued(void *cbArgs, int argc, char **argv, char **azColName)
 	}
 
 	// Update DB
-	char* query = "UPDATE commands SET completed = 1 WHERE id = ";
+	strcat(query, "UPDATE commands SET completed = 1 WHERE id = ");
 	strcat(query, data);
 	strcat(query, ";");
 	printf("%s", query);
@@ -50,7 +51,8 @@ static int commandsQueued(void *cbArgs, int argc, char **argv, char **azColName)
 	}
 
 	// Get Combo for lock with ID
-	query = "SELECT * FROM data WHERE id = ";
+	strcpy(query, "");
+	strcat(query, "SELECT * FROM data WHERE id = ");
 	strcat(query, data);
 	strcat(query, ";");
 	printf("%s", query);
