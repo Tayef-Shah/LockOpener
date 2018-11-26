@@ -34,7 +34,6 @@ int turn(GPIO_Handle gpio, int max, int first, int second, int third){
 	fflush(stdout);
     rotate(gpio, -(3 * max + (max - first)), max);             //First rotation to first number, SETS to zero 
 
-    /*
     //(CW) Second rotation to second number, SETS to zero
     rotate(gpio, max, max);
 	printf("Rotate: %d\n", max);
@@ -62,7 +61,7 @@ int turn(GPIO_Handle gpio, int max, int first, int second, int third){
 		printf("Rotate: %d\n", third - second);
 		fflush(stdout);
     }
-	*/
+
     return 0;
 }
 
