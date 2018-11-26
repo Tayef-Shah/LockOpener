@@ -11,7 +11,7 @@ int rotate(GPIO_Handle gpio, int ticks, int max){  //Argument is in the degrees 
     int stepDegree = (int) ((512/(double)max) * abs(ticks));
 	printf("Rotate: %d Steps\n", stepDegree);
     for(int i = 0; i < stepDegree; ++i){
-        stepStepperOnce(gpio, ticks < 0 ? -1 : 1);
+        stepStepperOnce(gpio, 1);
     }
     return 0;
 }
@@ -71,6 +71,8 @@ int reset(GPIO_Handle gpio, int starting, int max){
     if(starting < 0){
         return -1;
     }
+	printf("Rotate: %d Ticks\n", starting);
+	fflush(stdout);
     rotate(gpio, starting, max);
 
 	// Reset GPIO Pins
