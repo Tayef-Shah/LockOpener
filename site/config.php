@@ -25,14 +25,14 @@ if (!empty($_GET)) {
 	$nextId = $_POST["createLock"];
 	$query = "
 		INSERT OR REPLACE INTO data (id, num1, num2, num3)
-		VALUES ({$id}, 0,0,0);
+		VALUES ({$nextId}, 0,0,0);
 	";
 
 	$queryRet = $db->exec($query);
 	if(!$queryRet) {
 		die($db->lastErrorMsg());
 	} else {
-		echo "<script>alert('Lock #{$id} has been created!');</script>";
+		echo "<script>alert('Lock #{$nextId} has been created!');</script>";
 	}
 }
 
