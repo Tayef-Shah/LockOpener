@@ -50,12 +50,12 @@ int turn(GPIO_Handle gpio, int max, int first, int second, int third){
 	
     //Roatation to last number
     if(second < third) {
-        rotate(gpio, max-(second-third), max);
+        rotate(gpio, -(max-(second-third)), max);
 		printf("Rotate: %d\n", -(max - (second - third)));
 		fflush(stdout);
     } else {
-        rotate(gpio, second - third, max);
-		printf("Rotate: %d\n", second - third);
+        rotate(gpio, -(second - third), max);
+		printf("Rotate: %d\n", -(second - third));
 		fflush(stdout);
     }
 	
