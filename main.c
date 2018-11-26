@@ -1,5 +1,7 @@
 #include <stdio.h>
-#include <sqlite3.h>
+#include <string.h>
+
+#include "includes/sqlite3.h"
 
 #include "gpio/gpiolib_addr.h"
 #include "gpio/gpiolib_reg.h"
@@ -10,31 +12,59 @@
 
 #include "includes/constants.h"
 
+struct LockOpener {
+	GPIO_Handle gpio;
+	FILE* piBlaster;
+	sqlite3* db;
+	char* zErrMsg;
+};
+
 void testStepper(GPIO_Handle gpio);
 void testServo(FILE* file);
+
+static int commandsQueued(void *cbArgs, int argc, char **argv, char **azColName) {
+	for (int i = 0; i < argc; i++) {
+		if (!strncmp(azColName[i], "completed", 9)) {
+			printf("%s = %s\n", azColName[i], argv[i] ? argv[i] : "NULL");
+
+			//Testing
+			printf("Starting in 3 seconds...\n");
+			usleep(3000000);
+
+			testStepper(((struct LockOpener*) cbArgs)->gpio);
+			usleep(1000000);
+			testServo(((struct LockOpener*) cbArgs)->piBlaster);
+			usleep(1000000);
+		}
+	}
+	return 0;
+}
+
 int main() {
+	struct LockOpener lockOpener;
 
     //Initialize the GPIO pins
-    GPIO_Handle gpio = initializeGPIO();
+	lockOpener.gpio = initializeGPIO();
 
 	//Initialize Pi-Blaster file
-	FILE* piBlaster = servoInit();
+	lockOpener.piBlaster = servoInit();
 
 	//Initialize Stepper Motor
-	stepperInit(gpio);
+	stepperInit(lockOpener.gpio);
 
-	printf("Starting in 3 seconds...\n");
-	usleep(3000000);
-
-	//Testing
-	testStepper(gpio);
-	usleep(1000000);
-	testServo(piBlaster);
-	usleep(1000000);
+	//Initialize SQLite DB
+	lockOpener.zErrMsg = 0;
+	if (sqlite3_open(SQLITE_DB, &(lockOpener.db))) {
+		errorMessage(ERR_DATABASE_OPEN_FAILED);
+	}
 
 	// Program
 	while (1) {
 		// Check DB for commands
+		char* query = "SELECT * FROM commands WHERE completed == 0;";
+		if (sqlite3_exec(lockOpener.db, query, commandsQueued, &lockOpener, &(lockOpener.zErrMsg)) != SQLITE_OK) {
+			errorMessage(ERR_DATABASE_QUERY_FAILED);
+		}
 	}
 
     return 0;

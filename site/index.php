@@ -3,11 +3,10 @@ require_once 'db.php';
 
 if (!empty($_GET)) {
 	$id = $_GET["id"];
-	$command = "OPEN " + $id;
 	
 	$query = "
 		INSERT INTO commands (data)
-		VALUES ('{$command}');
+		VALUES ({$id});
 	";
 
 	$queryRet = $db->exec($query);
