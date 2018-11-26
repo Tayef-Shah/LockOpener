@@ -30,7 +30,7 @@ int turn(GPIO_Handle gpio, int max, int first, int second, int third){
     //Motor turns closewise looking directly at it
 
     //CCW looking directly at motor
-	printf("Rotate: %d Ticks\n", -(3 * max + (max-first)));
+	printf("Rotate: %d\n", -(3 * max + (max-first)));
 	fflush(stdout);
     rotate(gpio, -(3 * max + (max - first)), max);             //First rotation to first number, SETS to zero 
 
@@ -50,13 +50,13 @@ int turn(GPIO_Handle gpio, int max, int first, int second, int third){
 	
     //Roatation to last number
     if(second < third) {
-        rotate(gpio, -(max-(second-third)), max);
 		printf("Rotate: %d\n", -(max - (second - third)));
 		fflush(stdout);
+        rotate(gpio, -(max-(second-third)), max);
     } else {
-        rotate(gpio, -(second - third), max);
 		printf("Rotate: %d\n", -(second - third));
 		fflush(stdout);
+        rotate(gpio, -(second - third), max);
     }
 	
     return 0;
