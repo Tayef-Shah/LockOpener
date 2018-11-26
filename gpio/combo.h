@@ -35,22 +35,22 @@ int turn(GPIO_Handle gpio, int max, int first, int second, int third){
     rotate(gpio, -(3 * max + (max - first)), max);             //First rotation to first number, SETS to zero 
 
     //(CW) Second rotation to second number, SETS to zero
-    rotate(gpio, max, max);
 	printf("Rotate: %d\n", max);
 	fflush(stdout);
+    rotate(gpio, max, max);
     if(first > second){
-        rotate(gpio, first-second, max);
 		printf("Rotate: %d\n", first - second);
 		fflush(stdout);
+        rotate(gpio, first-second, max);
     } else {
-        rotate(gpio, first, max);
 		printf("Rotate: %d\n", first);
 		fflush(stdout);
-        rotate(gpio, max-second, max);
+        rotate(gpio, first, max);
 		printf("Rotate: %d\n", max - second);
 		fflush(stdout);
+        rotate(gpio, max-second, max);
     }
-
+	/*
     //Roatation to last number
     if(second > third) {
         rotate(gpio, max-(second-third), max);
@@ -61,7 +61,7 @@ int turn(GPIO_Handle gpio, int max, int first, int second, int third){
 		printf("Rotate: %d\n", third - second);
 		fflush(stdout);
     }
-
+	*/
     return 0;
 }
 
