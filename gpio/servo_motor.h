@@ -24,7 +24,7 @@ void setServoPosition(FILE* piblaster, double percentage) {
 	if (percentage < 0 || percentage > 1)
 		errorMessage(ERR_INCORRECT_PERCENTAGE);
 
-	printf("Setting Servo Position:\n%d=%f (Percentage: %f)\n", SERVOPIN, SERVOMIN + ((SERVOMAX - SERVOMIN) * percentage), percentage);
+	//printf("Setting Servo Position:\n%d=%f (Percentage: %f)\n", SERVOPIN, SERVOMIN + ((SERVOMAX - SERVOMIN) * percentage), percentage);
 	fprintf(piblaster, "%d=%f\n", SERVOPIN, SERVOMIN + ((SERVOMAX - SERVOMIN) * percentage));
 	fflush(piblaster);
 	usleep(1000000);
