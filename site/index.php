@@ -58,14 +58,14 @@ $db->close();
 			<form action="index.php" method="get">
 				<div class="form-group">
 					<label for="idSelect">Select Lock:</label>
-					<select required style="margin: auto;" class="form-control indexForm" id="id" name="id">
+					<select required class="form-control formInput" id="id" name="id">
 						<?php
 							foreach ($ids as $val) {
 								echo "<option>{$val}</option>";
 							}
 						?>
 					</select>
-					<input type="submit" value="Open Lock" class="btn btn-success indexForm"></input>
+					<input type="submit" value="Open Lock" class="btn btn-success formInput"></input>
 				</div>
 			</form>
 		</div>

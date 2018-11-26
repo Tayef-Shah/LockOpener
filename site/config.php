@@ -61,7 +61,7 @@ $db->close();
 			<form action="config.php" method="get">
 				<div class="form-group">
 					<label for="idSelect">Select Lock:</label>
-					<select required style="margin: auto;" class="form-control indexForm" id="id" name="id">
+					<select required class="form-control formInput" id="id" name="id">
 						<?php
 							foreach ($ids as $val) {
 								echo "<option>{$val}</option>";
@@ -71,18 +71,18 @@ $db->close();
 				</div>
 				<div class="form-group">
 					<label for="num1">1st Number:</label>
-					<input type="number" required class="form-control" id="num1" name="num1" placeholder="(eg. 34)">
+					<input type="number" required class="form-control formInput" id="num1" name="num1" placeholder="(eg. 34)">
 				</div>
 				<div class="form-group">
 					<label for="num2">2nd Number:</label>
-					<input type="number" required class="form-control" id="num2" name="num2" placeholder="(eg. 16)">
+					<input type="number" required class="form-control formInput" id="num2" name="num2" placeholder="(eg. 16)">
 				</div>
 				<div class="form-group">
 					<label for="num3">3rd Number:</label>
-					<input type="number" required class="form-control" id="num3" name="num3" placeholder="(eg. 22)">
+					<input type="number" required class="form-control formInput" id="num3" name="num3" placeholder="(eg. 22)">
 				</div>
 				<div class="form-group">
-					<input type="submit" value="Update Combination" class="btn btn-success indexForm"></input>
+					<input type="submit" value="Update Combination" class="btn btn-success formInput"></input>
 				</div>
 			</form>
 		</div>

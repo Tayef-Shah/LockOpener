@@ -28,8 +28,9 @@ line-height: 100px;
 	color: black;
 }
 
-.indexForm {
+.formInput {
 	width: 150px;
+	margin: auto;
 }
 
 #body {
