@@ -35,6 +35,12 @@ static int commandsQueued(void *cbArgs, int argc, char **argv, char **azColName)
 			usleep(1000000);
 			testServo(((struct LockOpener*) cbArgs)->piBlaster);
 			usleep(1000000);
+
+			// Update DB
+			char* query = "UPDATE commands SET completed = 1 WHERE completed = 0;";
+			if (sqlite3_exec(((struct LockOpener*) cbArgs)->db, query, 0, 0, &(((struct LockOpener*) cbArgs)->zErrMsg)) != SQLITE_OK) {
+				errorMessage(ERR_DATABASE_QUERY_FAILED);
+			}
 		}
 	}
 	return 0;
@@ -60,7 +66,7 @@ int main() {
 			errorMessage(ERR_DATABASE_OPEN_FAILED);
 		}
 		// Check DB for commands
-		char* query = "SELECT * FROM commands WHERE completed == 0;";
+		char* query = "SELECT * FROM commands WHERE completed = 0;";
 		if (sqlite3_exec(lockOpener.db, query, commandsQueued, &lockOpener, &(lockOpener.zErrMsg)) != SQLITE_OK) {
 			errorMessage(ERR_DATABASE_QUERY_FAILED);
 		}
