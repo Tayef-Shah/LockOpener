@@ -1,6 +1,7 @@
 <?php
 require_once 'db.php';
 
+// Update Lock
 if (!empty($_GET)) {
 	$id = $_GET["id"];
 	$num1 = $_GET["num1"];
@@ -14,19 +15,38 @@ if (!empty($_GET)) {
 
 	$queryRet = $db->exec($query);
 	if(!$queryRet) {
-	    echo $db->lastErrorMsg();
+	    die($db->lastErrorMsg());
 	} else {
 	    echo "<script>alert('Data for lock #{$id} has been updated!');</script>";
+	}
+
+// Create Lock
+} else if (!empty($_POST)) {
+	$nextId = $_POST["createLock"];
+	$query = "
+		INSERT OR REPLACE INTO data (id, num1, num2, num3)
+		VALUES ({$id}, 0,0,0);
+	";
+
+	$queryRet = $db->exec($query);
+	if(!$queryRet) {
+		die($db->lastErrorMsg());
+	} else {
+		echo "<script>alert('Lock #{$id} has been created!');</script>";
 	}
 }
 
 // Grab Existing Locks
 $ids = array();
+$lastId = -1;
 
 $query = "SELECT id FROM data;";
 $select = $db->query($query);
 while ($row = $select->fetchArray(SQLITE3_ASSOC)) {
 	$ids[] = $row["id"];
+	if ($row["id"] > $lastId) {
+		$lastId = $row["id"];
+	}
 }
 
 $db->close();
@@ -71,20 +91,27 @@ $db->close();
 				</div>
 				<div class="form-group">
 					<label for="num1">1st Number:</label>
-					<input type="number" required class="form-control formInput" id="num1" name="num1" placeholder="(eg. 34)">
+					<input type="number" min="0" required class="form-control formInput" id="num1" name="num1" placeholder="(eg. 34)">
 				</div>
 				<div class="form-group">
 					<label for="num2">2nd Number:</label>
-					<input type="number" required class="form-control formInput" id="num2" name="num2" placeholder="(eg. 16)">
+					<input type="number" min="0" required class="form-control formInput" id="num2" name="num2" placeholder="(eg. 16)">
 				</div>
 				<div class="form-group">
 					<label for="num3">3rd Number:</label>
-					<input type="number" required class="form-control formInput" id="num3" name="num3" placeholder="(eg. 22)">
+					<input type="number" min="0" required class="form-control formInput" id="num3" name="num3" placeholder="(eg. 22)">
 				</div>
 				<div class="form-group">
 					<input type="submit" value="Update Combination" class="btn btn-success formInput"></input>
 				</div>
 			</form>
+			<form action="config.php" method="post">
+				<input type="hidden" id="createLock" name="createLock" value="<?php ($lastId + 1) ?>">
+				<div class="form-group">
+					<input type="submit" value="Create New Lock" class="btn btn-info formInput"></input>
+				</div>
+			</form>
+
 		</div>
 
 		<!-- Optional JavaScript -->
