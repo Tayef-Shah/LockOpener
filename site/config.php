@@ -60,6 +60,16 @@ $db->close();
 		<div id="body">
 			<form action="config.php" method="get">
 				<div class="form-group">
+					<label for="idSelect">Select Lock:</label>
+					<select required style="margin: auto;" class="form-control indexForm" id="id" name="id">
+						<?php
+							foreach ($ids as $val) {
+								echo "<option>{$val}</option>";
+							}
+						?>
+					</select>
+				</div>
+				<div class="form-group">
 					<label for="num1">1st Number:</label>
 					<input type="number" required class="form-control" id="num1" name="num1" placeholder="(eg. 34)">
 				</div>
