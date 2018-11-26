@@ -59,7 +59,7 @@ while ($row = $select->fetchArray(SQLITE3_ASSOC)) {
 					<select class="form-control" id="idSelect">
 						<?php
 							foreach ($ids as $val) {
-								echo "<option>{$id}</option>";
+								echo "<option>{$val}</option>";
 							}
 						?>
 					</select>
