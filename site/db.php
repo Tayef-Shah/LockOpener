@@ -38,6 +38,4 @@ EOF;
       die($db->lastErrorMsg());
    }
 
-   echo "Connected and... ";
-
 ?>
