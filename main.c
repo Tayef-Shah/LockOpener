@@ -38,7 +38,7 @@ static int gotCombo(void *cbArgs, int argc, char **argv, char **azColName) {
 		}
 	}
 
-	printf("Parsed:\n%d-%d-%d\n");
+	printf("Parsed:\n%d-%d-%d\n", num1, num2, num3);
 	fflush(stdout);
 	return 0;
 }
