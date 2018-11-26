@@ -6,14 +6,18 @@
 
 #header {
 	width: 100%;
-	height: 240px;
+	height: 100px;
 	background-color: #e3f2fd;
 }
 
 .headerItem {
 	line-height: 240px;
-	height: 240px;
+	height: 100%;
 	width: 50%;
 	float: left;
 	text-align: center;
+	font-size: 32px;
+}
+.activeHeader {
+	background-color: #007bff21;
 }
