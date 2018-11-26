@@ -48,6 +48,8 @@ static int commandsQueued(void *cbArgs, int argc, char **argv, char **azColName)
 	if (sqlite3_exec(((struct LockOpener*) cbArgs)->db, query, 0, 0, &(((struct LockOpener*) cbArgs)->zErrMsg)) != SQLITE_OK) {
 		errorMessage(ERR_DATABASE_QUERY_FAILED);
 	}
+	strcat(query, "\n");
+	fflush(stdout);
 
 	// Get Combo for lock with ID
 	strcpy(query, "");
@@ -58,6 +60,8 @@ static int commandsQueued(void *cbArgs, int argc, char **argv, char **azColName)
 	if (sqlite3_exec(((struct LockOpener*) cbArgs)->db, query, gotCombo, cbArgs, &(((struct LockOpener*) cbArgs)->zErrMsg)) != SQLITE_OK) {
 		errorMessage(ERR_DATABASE_QUERY_FAILED);
 	}
+	strcat(query, "\n");
+	fflush(stdout);
 
 	return 0;
 }
