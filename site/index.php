@@ -13,9 +13,8 @@ if (!empty($_GET)) {
 	if(!$queryRet) {
 	    echo $db->lastErrorMsg();
 	} else {
-	    echo "Command Sent\n";
+	    echo "<script>alert('Command Sent!');</script>";
 	}
-	$db->close();
 }
 
 // Grab Existing Locks
@@ -26,6 +25,8 @@ $select = $db->query($query);
 while ($row = $select->fetchArray(SQLITE3_ASSOC)) {
 	$ids[] = $row["id"];
 }
+
+$db->close();
 
 ?>
 
@@ -57,7 +58,7 @@ while ($row = $select->fetchArray(SQLITE3_ASSOC)) {
 			<form action="index.php" method="get">
 				<div class="form-group">
 					<label for="idSelect">Select Lock:</label>
-					<select style="margin: auto;" class="form-control indexForm" id="idSelect">
+					<select required style="margin: auto;" class="form-control indexForm" id="id" name="id">
 						<?php
 							foreach ($ids as $val) {
 								echo "<option>{$val}</option>";
@@ -77,7 +78,3 @@ while ($row = $select->fetchArray(SQLITE3_ASSOC)) {
 		<script src="src/script.js"></script>
 	</body>
 </html>
-
-<?php
-	$db->close();
-?>
