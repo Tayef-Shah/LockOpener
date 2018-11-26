@@ -11,7 +11,7 @@ int rotate(GPIO_Handle gpio, int ticks, int max){  //Argument is in the degrees 
     int stepDegree = (int) ((512/(double)max) * abs(ticks));
 	printf("Rotate: %d Steps\n", stepDegree);
     for(int i = 0; i < stepDegree; ++i){
-        stepStepperOnce(gpio, 1);
+        stepStepperOnce(gpio, ticks < 0 ? -1 : 1);
     }
     return 0;
 }
