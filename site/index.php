@@ -57,7 +57,7 @@ while ($row = $select->fetchArray(SQLITE3_ASSOC)) {
 			<form action="index.php" method="get">
 				<div class="form-group">
 					<label for="idSelect">Select Lock:</label>
-					<select class="form-control indexForm" id="idSelect">
+					<select style="margin: auto;" class="form-control indexForm" id="idSelect">
 						<?php
 							foreach ($ids as $val) {
 								echo "<option>{$val}</option>";

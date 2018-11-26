@@ -30,3 +30,7 @@ line-height: 100px;
 .indexForm {
 	width: 150px;
 }
+
+#body .form-group {
+	text-align: center;
+}
