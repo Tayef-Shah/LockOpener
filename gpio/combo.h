@@ -8,9 +8,9 @@
 
 int rotate(GPIO_Handle gpio, int degs, int max){  //Argument is in the degrees of the lock
     int stepDegree = (512/max)*degs;
-    if(stepDegree < 0 || stepDegree > max){
-        return - 1; //Arugment error
-    }
+    //if(stepDegree < 0 || stepDegree > max){
+    //    return - 1; //Arugment error
+    //}
     for(int i = 0; i < stepDegree; ++i){
         stepStepperOnce(gpio, 1);
     }
