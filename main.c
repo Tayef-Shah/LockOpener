@@ -42,9 +42,8 @@ static int commandsQueued(void *cbArgs, int argc, char **argv, char **azColName)
 	}
 
 	// Update DB
-	strcat(query, "UPDATE commands SET completed = 1 WHERE id = ");
-	strcat(query, data);
-	strcat(query, ";");
+	strcpy(query, "");
+	strcat(query, "UPDATE commands SET completed = 1 WHERE completed = 0;");
 	printf("%s", query);
 	if (sqlite3_exec(((struct LockOpener*) cbArgs)->db, query, 0, 0, &(((struct LockOpener*) cbArgs)->zErrMsg)) != SQLITE_OK) {
 		errorMessage(ERR_DATABASE_QUERY_FAILED);
