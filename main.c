@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <string.h>
 
-#include "includes/sqlite3.h"
+#include "../sqlite3.h"
 
 #include "gpio/gpiolib_addr.h"
 #include "gpio/gpiolib_reg.h"
