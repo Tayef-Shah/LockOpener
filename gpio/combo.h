@@ -8,7 +8,8 @@
 
 
 int rotate(GPIO_Handle gpio, int ticks, int max){  //Argument is in the degrees of the lock
-    int stepDegree = (512/max)*abs(ticks);
+    int stepDegree = (int) ((512/(double)max) * abs(ticks));
+	printf("Rotate: %d Steps\n", stepDegree);
     for(int i = 0; i < stepDegree; ++i){
         stepStepperOnce(gpio, ticks < 0 ? -1 : 1);
     }
@@ -29,9 +30,10 @@ int turn(GPIO_Handle gpio, int max, int first, int second, int third){
     //Motor turns closewise looking directly at it
 
     //CCW looking directly at motor
-    rotate(gpio, -(2 * max + first) , max);             //First rotation to first number, SETS to zero 
-	printf("Rotate: %d\n", -(2 * max + first));
+	printf("Rotate: %d Ticks\n", -(2 * max + first));
 	fflush(stdout);
+    rotate(gpio, -(2 * max + first) , max);             //First rotation to first number, SETS to zero 
+
     /*
     //(CW) Second rotation to second number, SETS to zero
     rotate(gpio, max, max);
