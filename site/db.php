@@ -27,7 +27,7 @@
 	
 	CREATE TABLE IF NOT EXISTS commands (
         id INTEGER PRIMARY KEY AUTOINCREMENT UNIQUE,
-        data TEXT,
+        data INTEGER,
         completed INTEGER DEFAULT (0),
         time TIME DEFAULT (CURRENT_TIME) 
     );

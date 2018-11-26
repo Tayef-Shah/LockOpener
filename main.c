@@ -16,27 +16,66 @@ struct LockOpener {
 	GPIO_Handle gpio;
 	FILE* piBlaster;
 	sqlite3* db;
+	sqlite3_stmt *stmt;
 	char* zErrMsg;
 };
 
 void testStepper(GPIO_Handle gpio);
 void testServo(FILE* file);
 
-static int commandsQueued(void *cbArgs, int argc, char **argv, char **azColName) {
+static int gotCombo(void *cbArgs, int argc, char **argv, char **azColName) {
+	int num1 = -1, num2 = -1, num3 = -1;
+
+	printf("Got Combo:\n");
 	for (int i = 0; i < argc; i++) {
-		if (!strncmp(azColName[i], "completed", 9)) {
-			printf("%s = %s\n", azColName[i], argv[i] ? argv[i] : "NULL");
-
-			//Testing
-			printf("Starting in 3 seconds...\n");
-			usleep(3000000);
-
-			testStepper(((struct LockOpener*) cbArgs)->gpio);
-			usleep(1000000);
-			testServo(((struct LockOpener*) cbArgs)->piBlaster);
-			usleep(1000000);
+		printf("%s = %s\n", azColName[i], argv[i] ? argv[i] : "NULL");
+		if (!strncmp(azColName[i], "num1", 4)) {
+			num1 = (int)strtol(argv[i], (char **)NULL, 10);
+		} else if (!strncmp(azColName[i], "num2", 4)) {
+			num2 = (int)strtol(argv[i], (char **)NULL, 10);
+		} else if (!strncmp(azColName[i], "num3", 4)) {
+			num3 = (int)strtol(argv[i], (char **)NULL, 10);
 		}
 	}
+
+	printf("Parsed:\n%d - %d - %d\n\n", num1, num2, num3);
+	fflush(stdout);
+	return 0;
+}
+
+static int commandsQueued(void *cbArgs, int argc, char **argv, char **azColName) {
+	char* data = 0;
+	char query[1024];
+
+	// Parse DB Data
+	printf("Command Recieved:\n");
+	for (int i = 0; i < argc; i++) {
+		printf("%s = %s\n", azColName[i], argv[i] ? argv[i] : "NULL");
+		if (!strncmp(azColName[i], "data", 4)) {
+			data = argv[i];
+		}
+	}
+
+	// Update DB
+	strcpy(query, "");
+	strcat(query, "UPDATE commands SET completed = 1 WHERE completed = 0;");
+	printf("%s\n", query);
+	fflush(stdout);
+	if (sqlite3_exec(((struct LockOpener*) cbArgs)->db, query, 0, 0, &(((struct LockOpener*) cbArgs)->zErrMsg)) != SQLITE_OK) {
+		errorMessage(ERR_DATABASE_QUERY_FAILED);
+	}
+
+	// Get Combo for lock with ID
+	strcpy(query, "");
+	strcat(query, "SELECT * FROM data WHERE id = ");
+	strcat(query, data);
+	strcat(query, ";");
+	printf("%s\n", query);
+	fflush(stdout);
+	if (sqlite3_exec(((struct LockOpener*) cbArgs)->db, query, gotCombo, cbArgs, &(((struct LockOpener*) cbArgs)->zErrMsg)) != SQLITE_OK) {
+		errorMessage(ERR_DATABASE_QUERY_FAILED);
+	}
+
 	return 0;
 }
 
@@ -60,7 +99,7 @@ int main() {
 			errorMessage(ERR_DATABASE_OPEN_FAILED);
 		}
 		// Check DB for commands
-		char* query = "SELECT * FROM commands WHERE completed == 0;";
+		char* query = "SELECT * FROM commands WHERE completed = 0;";
 		if (sqlite3_exec(lockOpener.db, query, commandsQueued, &lockOpener, &(lockOpener.zErrMsg)) != SQLITE_OK) {
 			errorMessage(ERR_DATABASE_QUERY_FAILED);
 		}
