@@ -34,7 +34,7 @@ void stepStepperOnce(GPIO_Handle gpio, int direction) {
             else
                 outputOff(gpio, pin);
         }
-        usleep(1000);
+        usleep(2000);
     }
 }
 
