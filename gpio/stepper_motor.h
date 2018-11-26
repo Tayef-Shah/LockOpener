@@ -27,7 +27,7 @@ void stepStepperOnce(GPIO_Handle gpio, int direction) {
 	//printf("Stepper Motor (%d) - Stepping Once\n", direction);
     for (int a = 0; a < 8; ++a) {
         for (int i = 0; i < 4; ++i) {
-            int index = direction == 1 ? i : 7 - i;
+            int index = direction == 1 ? i : 7 - a;
             int pin = STEPPER_PIN[index];
             if (STEPPER_SEQ[a][index])
                 outputOn(gpio, pin);
