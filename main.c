@@ -23,20 +23,38 @@ struct LockOpener {
 void testStepper(GPIO_Handle gpio);
 void testServo(FILE* file);
 
-static int commandsQueued(void *cbArgs, int argc, char **argv, char **azColName) {
-	int data = 0;
+static int gotCombo(void *cbArgs, int argc, char **argv, char **azColName) {
+	printf("Sup!");
+	return 0;
+}
 
+static int commandsQueued(void *cbArgs, int argc, char **argv, char **azColName) {
+	char* data = 0;
+
+	// Parse DB Data
 	printf("Command Recieved:\n");
 	for (int i = 0; i < argc; i++) {
 		printf("%s = %s\n", azColName[i], argv[i] ? argv[i] : "NULL");
 		if (!strncmp(azColName[i], "data", 4)) {
-			data = (int)strtol(argv[i], (char **)NULL, 16);
+			data = argv[i];
 		}
 	}
 
 	// Update DB
-	char* query = "UPDATE commands SET completed = 1 WHERE completed = 0;";
+	char* query = "UPDATE commands SET completed = 1 WHERE id = ";
+	strcat(query, data);
+	strcat(query, ";");
+	printf("%s", query);
 	if (sqlite3_exec(((struct LockOpener*) cbArgs)->db, query, 0, 0, &(((struct LockOpener*) cbArgs)->zErrMsg)) != SQLITE_OK) {
+		errorMessage(ERR_DATABASE_QUERY_FAILED);
+	}
+
+	// Get Combo for lock with ID
+	query = "SELECT * FROM data WHERE id = ";
+	strcat(query, data);
+	strcat(query, ";");
+	printf("%s", query);
+	if (sqlite3_exec(((struct LockOpener*) cbArgs)->db, query, gotCombo, cbArgs, &(((struct LockOpener*) cbArgs)->zErrMsg)) != SQLITE_OK) {
 		errorMessage(ERR_DATABASE_QUERY_FAILED);
 	}
 
