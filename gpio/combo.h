@@ -81,12 +81,12 @@ int reset(GPIO_Handle gpio, int num, int max){
 
 //Turns the servo motor
 int pull(FILE* piblaster){
-	printf("Started Servo (Up)\n");
-	fflush(stdout);
-	setServoPosition(piblaster, 1);
 	printf("Started Servo (Down)\n");
 	fflush(stdout);
 	setServoPosition(piblaster, 0);
+	printf("Started Servo (Up)\n");
+	fflush(stdout);
+	setServoPosition(piblaster, 1);
 	usleep(1000000);
     //how to check if it didn't work?
     return 0;
