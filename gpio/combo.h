@@ -75,6 +75,7 @@ int reset(GPIO_Handle gpio, int num, int max){
 	for (int i = 0; i < abs(num); ++i) {
 		stepStepperOnce(gpio, -num < 0 ? -1 : 1, LOCK_STEPPER);
 	}
+	rotate(gpio, 1, max);
 	stepperOff(gpio);
 }
 
