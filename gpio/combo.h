@@ -17,6 +17,7 @@ int rotate(GPIO_Handle gpio, int ticks, int max){  //Argument is in the degrees 
 }
 
 int turn(GPIO_Handle gpio, int max, int first, int second, int third){
+	//Motor turns closewise looking directly at it
 	printf("Started Turning:\n");
 	fflush(stdout);
 
@@ -27,15 +28,14 @@ int turn(GPIO_Handle gpio, int max, int first, int second, int third){
         return -2;
     }
 
-    //Motor turns closewise looking directly at it
-
     //CCW looking directly at motor
-	printf("Rotate: %d\n", -(3 * max + (max-first)));
+	printf("Rotate (Num1): %d\n", -(3 * max + (max-first)));
 	fflush(stdout);
     rotate(gpio, -(3 * max + (max - first)), max);             //First rotation to first number, SETS to zero 
+	usleep(1000000);
 
     //(CW) Second rotation to second number, SETS to zero
-	printf("Rotate: %d\n", max);
+	printf("Rotate (Num2): %d\n", max);
 	fflush(stdout);
     rotate(gpio, max, max);
     if(first > second){
@@ -47,18 +47,20 @@ int turn(GPIO_Handle gpio, int max, int first, int second, int third){
 		fflush(stdout);
         rotate(gpio, second - first, max);
     }
+	usleep(1000000);
 	
     //Roatation to last number
     if(second < third) {
-		printf("Rotate: %d\n", -(max - (third - second)));
+		printf("Rotate (Num3): %d\n", -(max - (third - second)));
 		fflush(stdout);
         rotate(gpio, -(max-(third-second)), max);
     } else {
-		printf("Rotate: %d\n", -(second - third));
+		printf("Rotate (Num3): %d\n", -(second - third));
 		fflush(stdout);
         rotate(gpio, -(second - third), max);
     }
-	
+	usleep(1000000);
+
     return 0;
 }
 
@@ -81,6 +83,7 @@ int reset(GPIO_Handle gpio, int starting, int max){
 int pull(FILE* piblaster){
 	setServoPosition(piblaster, 0);
     setServoPosition(piblaster, 1);
+	usleep(1000000);
     //how to check if it didn't work?
     return 0;
 }

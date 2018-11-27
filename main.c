@@ -43,6 +43,7 @@ static int gotCombo(void *cbArgs, int argc, char **argv, char **azColName) {
 	fflush(stdout);
 
 	turn(((struct LockOpener*) cbArgs)->gpio, LOCK_MAX_VAL, num1, num2, num3);
+	pull(((struct LockOpener*) cbArgs)->piBlaster);
 	reset(((struct LockOpener*) cbArgs)->gpio, num3, LOCK_MAX_VAL);
 
 	return 0;
