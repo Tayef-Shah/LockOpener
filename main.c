@@ -129,8 +129,8 @@ int main() {
 // Spin Stepper Motor 180 Degrees
 void testStepper(GPIO_Handle gpio) {
 	//Testing for stepper motor
-	for (int i = 0; i < 512/4; ++i) {
-		stepStepperOnce(gpio, -1, 1);
+	for (int i = 0; i < 512/4;) {
+		stepStepperOnce(gpio, -1, 0);
 	}
 
 	stepperOff(gpio);
