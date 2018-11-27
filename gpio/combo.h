@@ -14,7 +14,7 @@ int rotate(GPIO_Handle gpio, int ticks, int max){  //Argument is in the degrees 
     for(int i = 0; i < stepDegree; ++i){
         stepStepperOnce(gpio, ticks < 0 ? -1 : 1);
     }
-    return stepDegree;
+    return ticks < 0 ? -stepDegree : stepDegree;
 }
 
 int turn(GPIO_Handle gpio, int max, int first, int second, int third){
