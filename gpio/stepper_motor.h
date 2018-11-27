@@ -6,7 +6,8 @@
 #include "gpio_helper.h"
 #include "../includes/constants.h"
 
-const int STEPPER_PIN[4] = { 17, 22, 23, 24 };
+const int STEPPER_PIN[4] = { 6,13,19,26 };
+//const int STEPPER_PIN[4] = { 17, 22, 23, 24 };
 const int STEPPER_SEQ[8][4] = { {1,0,0,1},
 							 {1,0,0,0},
 							 {1,1,0,0},
