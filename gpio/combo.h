@@ -65,13 +65,13 @@ int turn(GPIO_Handle gpio, int max, int first, int second, int third){
 }
 
 //Brings lock back to zero based on the final number it lands on
-int reset(GPIO_Handle gpio, int starting, int max){
-    if(starting < 0){
+int reset(GPIO_Handle gpio, int num, int max){
+    if(num < 0){
         return -1;
     }
-	printf("Rotate: %d Ticks\n", starting);
+	printf("Rotate (Reseting to zero): %d\n", -num);
 	fflush(stdout);
-    rotate(gpio, starting, max);
+    rotate(gpio, -num, max);
 
 	// Reset GPIO Pins
 	for (int i = 0; i < 4; ++i)
@@ -81,7 +81,11 @@ int reset(GPIO_Handle gpio, int starting, int max){
 
 //Turns the servo motor
 int pull(FILE* piblaster){
+	printf("Started Servo (Down)\n");
+	fflush(stdout);
 	setServoPosition(piblaster, 0);
+	printf("Started Servo (Up)\n");
+	fflush(stdout);
     setServoPosition(piblaster, 1);
 	usleep(1000000);
     //how to check if it didn't work?
