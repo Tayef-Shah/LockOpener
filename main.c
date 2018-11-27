@@ -108,7 +108,7 @@ int main() {
 	stepperInit(lockOpener.gpio);
 
 	// Program
-	while (1) {
+	/*while (1) {
 		//Initialize SQLite DB
 		lockOpener.zErrMsg = 0;
 		if (sqlite3_open(SQLITE_DB, &(lockOpener.db))) {
@@ -121,16 +121,16 @@ int main() {
 		}
 		sqlite3_close(lockOpener.db);
 		usleep(1000000);
-	}
-
+	}*/
+	testStepper(lockOpener.gpio);
     return 0;
 }
 
 // Spin Stepper Motor 180 Degrees
 void testStepper(GPIO_Handle gpio) {
 	//Testing for stepper motor
-	for (int i = 0; i < 512; ++i) {
-		stepStepperOnce(gpio, 1, 0);
+	for (int i = 0; i < 512/4; ++i) {
+		stepStepperOnce(gpio, 1, 1);
 	}
 
 	stepperOff(gpio);
