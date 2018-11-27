@@ -29,9 +29,9 @@ int turn(GPIO_Handle gpio, int max, int first, int second, int third){
     }
 
     //CCW looking directly at motor
-	printf("Rotate (Num1): %d\n", -(3 * max + (max-first)));
+	printf("Rotate (Num1): %d\n", -(2* max + (max-first)));
 	fflush(stdout);
-    rotate(gpio, -(3 * max + (max - first)), max);             //First rotation to first number, SETS to zero 
+    rotate(gpio, -(2 * max + (max - first)), max);             //First rotation to first number, SETS to zero 
 	usleep(1000000);
 
     //(CW) Second rotation to second number, SETS to zero
@@ -81,12 +81,12 @@ int reset(GPIO_Handle gpio, int num, int max){
 
 //Turns the servo motor
 int pull(FILE* piblaster){
+	printf("Started Servo (Up)\n");
+	fflush(stdout);
+	setServoPosition(piblaster, 1);
 	printf("Started Servo (Down)\n");
 	fflush(stdout);
 	setServoPosition(piblaster, 0);
-	printf("Started Servo (Up)\n");
-	fflush(stdout);
-    setServoPosition(piblaster, 1);
 	usleep(1000000);
     //how to check if it didn't work?
     return 0;
