@@ -133,9 +133,7 @@ void testStepper(GPIO_Handle gpio) {
 		stepStepperOnce(gpio, 1, 0);
 	}
 
-	// Reset GPIO Pins
-	for (int i = 0; i < 4; ++i)
-		outputOff(gpio, STEPPER_PIN[i]);
+	stepperOff(gpio);
 }
 
 // Set servo to max, sleep 2 second, then set it to min
