@@ -108,7 +108,7 @@ int main() {
 	stepperInit(lockOpener.gpio);
 
 	// Program
-	/*while (1) {
+	while (1) {
 		//Initialize SQLite DB
 		lockOpener.zErrMsg = 0;
 		if (sqlite3_open(SQLITE_DB, &(lockOpener.db))) {
@@ -121,8 +121,8 @@ int main() {
 		}
 		sqlite3_close(lockOpener.db);
 		usleep(1000000);
-	}*/
-	testStepper(lockOpener.gpio);
+	}
+	//testStepper(lockOpener.gpio);
     return 0;
 }
 
