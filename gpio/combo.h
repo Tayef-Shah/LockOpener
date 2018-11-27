@@ -7,7 +7,7 @@
 #include "servo_motor.h"
 
 // [Deprecated] Adjustment Factor
-const float LOCK_ADJ = 0.6;
+const float LOCK_ADJ = 0.75;
 
 int rotate(GPIO_Handle gpio, int ticks, int max){  //Argument is in the degrees of the lock
     int stepDegree = (int) ((512/(double)max) * (abs(ticks) + LOCK_ADJ));
@@ -75,7 +75,6 @@ int reset(GPIO_Handle gpio, int num, int max){
 	for (int i = 0; i < abs(num); ++i) {
 		stepStepperOnce(gpio, -num < 0 ? -1 : 1, LOCK_STEPPER);
 	}
-	rotate(gpio, 1, max);
 	stepperOff(gpio);
 }
 
