@@ -32,7 +32,6 @@ void stepperOff(GPIO_Handle gpio) {
 		outputOff(gpio, STEPPER_PIN[LOCK_STEPPER][i]);
 		outputOff(gpio, STEPPER_PIN[UNLOCKER_STEPPER][i]);
 	}
-	return 0;
 }
 
 //Step once (512 per rotation), in direction (1 for CW, -1 for CCW)
