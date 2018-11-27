@@ -55,6 +55,7 @@ static int gotCombo(void *cbArgs, int argc, char **argv, char **azColName) {
 }
 
 static int commandsQueued(void *cbArgs, int argc, char **argv, char **azColName) {
+	char* commandID = 0;
 	char* data = 0;
 	char query[1024];
 
@@ -64,13 +65,15 @@ static int commandsQueued(void *cbArgs, int argc, char **argv, char **azColName)
 		printf("%s = %s\n", azColName[i], argv[i] ? argv[i] : "NULL");
 		if (!strncmp(azColName[i], "data", 4)) {
 			data = argv[i];
+		} else if (!strncmp(azColName[i], "id", 2)) {
+			commandID = argv[i];
 		}
 	}
 
 	// Update DB
 	strcpy(query, "");
 	strcat(query, "UPDATE commands SET completed = 1 WHERE id = ");
-	strcat(query, data);
+	strcat(query, commandID);
 	strcat(query, ";");
 	printf("%s\n", query);
 	fflush(stdout);
