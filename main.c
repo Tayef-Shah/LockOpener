@@ -123,7 +123,19 @@ int main() {
 		usleep(1000000);
 	}*/
 
-	rotate(lockOpener.gpio, 400, 40);
+	rotate(lockOpener.gpio, 40, 40);
+	rotate(lockOpener.gpio, -40, 40);
+	rotate(lockOpener.gpio, 40, 40);
+	rotate(lockOpener.gpio, -40, 40);
+	rotate(lockOpener.gpio, 40, 40);
+	rotate(lockOpener.gpio, -40, 40);
+	rotate(lockOpener.gpio, 40, 40);
+	rotate(lockOpener.gpio, -40, 40);
+	rotate(lockOpener.gpio, 40, 40);
+	rotate(lockOpener.gpio, -40, 40);
+	rotate(lockOpener.gpio, 40, 40);
+	rotate(lockOpener.gpio, -40, 40);
+	stepperOff(lockOpener.gpio);
 
 	//testStepper(lockOpener.gpio);
     return 0;
