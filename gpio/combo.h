@@ -73,7 +73,7 @@ int reset(GPIO_Handle gpio, int num, int max){
 	printf("Rotate (Reseting to zero): %d Steps\n", -num);
 	fflush(stdout);
 	for (int i = 0; i < abs(num); ++i) {
-		stepStepperOnce(gpio, num < 0 ? -1 : 1, LOCK_STEPPER);
+		stepStepperOnce(gpio, -num < 0 ? -1 : 1, LOCK_STEPPER);
 	}
 	stepperOff(gpio);
 }
