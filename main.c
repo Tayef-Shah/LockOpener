@@ -130,7 +130,7 @@ int main() {
 void testStepper(GPIO_Handle gpio) {
 	//Testing for stepper motor
 	for (int i = 0; i < 512; ++i) {
-		stepStepperOnce(gpio, 1);
+		stepStepperOnce(gpio, 1, 0);
 	}
 
 	// Reset GPIO Pins

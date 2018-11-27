@@ -6,13 +6,14 @@
 #include "stepper_motor.h"
 #include "servo_motor.h"
 
+// [Deprecated] Adjustment Factor
 const float LOCK_ADJ = 0;
 
 int rotate(GPIO_Handle gpio, int ticks, int max){  //Argument is in the degrees of the lock
     int stepDegree = (int) ((512/(double)max) * (abs(ticks) + LOCK_ADJ));
 	printf("Rotate: %d Steps\n", stepDegree);
     for(int i = 0; i < stepDegree; ++i){
-        stepStepperOnce(gpio, ticks < 0 ? -1 : 1);
+        stepStepperOnce(gpio, ticks < 0 ? -1 : 1, LOCK_STEPPER);
     }
     return ticks < 0 ? -stepDegree : stepDegree;
 }
@@ -72,17 +73,12 @@ int reset(GPIO_Handle gpio, int num, int max){
 	printf("Rotate (Reseting to zero): %d Steps\n", -num);
 	fflush(stdout);
 	for (int i = 0; i < abs(num); ++i) {
-		stepStepperOnce(gpio, num < 0 ? -1 : 1);
+		stepStepperOnce(gpio, num < 0 ? -1 : 1, LOCK_STEPPER);
 	}
-
-	// Reset GPIO Pins
-	printf("Turn GPIO Pins Off\n");
-	for (int i = 0; i < 4; ++i)
-		outputOff(gpio, STEPPER_PIN[i]);
-    return 0;
+	stepperOff(gpio);
 }
 
-//Turns the servo motor
+// [Deprecated] Turns the servo motor
 int pull(FILE* piblaster){
 	printf("Started Servo (Down)\n");
 	fflush(stdout);
@@ -93,6 +89,10 @@ int pull(FILE* piblaster){
 	usleep(1000000);
     //how to check if it didn't work?
     return 0;
+}
+
+int unlock(GPIO_Handle gpio) {
+
 }
 
 #endif

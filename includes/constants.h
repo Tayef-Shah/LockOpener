@@ -14,6 +14,9 @@
 const char* SQLITE_DB = "site/database/db.db3";
 const int LOCK_MAX_VAL = 40;
 
+const int LOCK_STEPPER = 0;
+const int UNLOCKER_STEPPER = 1;
+
 //Output error message and exit
 void errorMessage(const int errorCode)
 {
