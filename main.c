@@ -39,13 +39,18 @@ static int gotCombo(void *cbArgs, int argc, char **argv, char **azColName) {
 		}
 	}
 
-	printf("Parsed:\n%d - %d - %d\n\n", num1, num2, num3);
+	printf("Parsed:\n%d - %d - %d\n", num1, num2, num3);
 	fflush(stdout);
 
-	turn(((struct LockOpener*) cbArgs)->gpio, LOCK_MAX_VAL, num1, num2, num3);
-	pull(((struct LockOpener*) cbArgs)->piBlaster);
-	reset(((struct LockOpener*) cbArgs)->gpio, num3, LOCK_MAX_VAL);
+	int turns = turn(((struct LockOpener*) cbArgs)->gpio, LOCK_MAX_VAL, num1, num2, num3); 
+	printf("Totals Steps:\n%d\n", turns);
+	fflush(stdout);
 
+	pull(((struct LockOpener*) cbArgs)->piBlaster);
+	reset(((struct LockOpener*) cbArgs)->gpio, turns, LOCK_MAX_VAL);
+
+	printf("Done!\n\n");
+	fflush(stdout);
 	return 0;
 }
 

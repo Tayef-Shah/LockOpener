@@ -14,10 +14,12 @@ int rotate(GPIO_Handle gpio, int ticks, int max){  //Argument is in the degrees 
     for(int i = 0; i < stepDegree; ++i){
         stepStepperOnce(gpio, ticks < 0 ? -1 : 1);
     }
-    return 0;
+    return stepDegree;
 }
 
 int turn(GPIO_Handle gpio, int max, int first, int second, int third){
+	int totalRotations = 0;
+
 	//Motor turns closewise looking directly at it
 	printf("Started Turning:\n");
 	fflush(stdout);
@@ -32,21 +34,21 @@ int turn(GPIO_Handle gpio, int max, int first, int second, int third){
     //CCW looking directly at motor
 	printf("Rotate (Num1): %d\n", -(2* max + (max-first)));
 	fflush(stdout);
-    rotate(gpio, -(2 * max + (max - first)), max);             //First rotation to first number, SETS to zero 
+	totalRotations += rotate(gpio, -(2 * max + (max - first)), max);             //First rotation to first number, SETS to zero 
 	usleep(1000000);
 
     //(CW) Second rotation to second number, SETS to zero
 	printf("Rotate (Num2): %d\n", max);
 	fflush(stdout);
-    rotate(gpio, max, max);
+	totalRotations += rotate(gpio, max, max);
     if(first > second){
 		printf("Rotate: %d\n", max - first + second);
 		fflush(stdout);
-        rotate(gpio, max-first+second, max);
+		totalRotations += rotate(gpio, max-first+second, max);
     } else {
 		printf("Rotate: %d\n", second-first);
 		fflush(stdout);
-        rotate(gpio, second - first, max);
+		totalRotations += rotate(gpio, second - first, max);
     }
 	usleep(1000000);
 	
@@ -54,22 +56,19 @@ int turn(GPIO_Handle gpio, int max, int first, int second, int third){
     if(second < third) {
 		printf("Rotate (Num3): %d\n", -(max - (third - second)));
 		fflush(stdout);
-        rotate(gpio, -(max-(third-second)), max);
+		totalRotations += rotate(gpio, -(max-(third-second)), max);
     } else {
 		printf("Rotate (Num3): %d\n", -(second - third));
 		fflush(stdout);
-        rotate(gpio, -(second - third), max);
+		totalRotations += rotate(gpio, -(second - third), max);
     }
 	usleep(1000000);
 
-    return 0;
+    return totalRotations;
 }
 
 //Brings lock back to zero based on the final number it lands on
 int reset(GPIO_Handle gpio, int num, int max){
-    if(num < 0){
-        return -1;
-    }
 	printf("Rotate (Reseting to zero): %d\n", -num);
 	fflush(stdout);
     rotate(gpio, -num, max);
