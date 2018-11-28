@@ -95,12 +95,12 @@ int pull(FILE* piblaster){
 }
 
 int unlock(GPIO_Handle gpio) {
-	printf("Unlocking...");
+	printf("Unlocking...\n");
 	fflush(stdout);
 	rotate(gpio, 30, 10);
 	usleep(1000000);
 
-	printf("Reseting...");
+	printf("Reseting...\n");
 	fflush(stdout);
 	rotate(gpio, -30, 10);
 	usleep(1000000);
