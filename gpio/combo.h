@@ -13,7 +13,7 @@ int rotate(GPIO_Handle gpio, int ticks, int max){  //Argument is in the degrees 
     int stepDegree = (int) ((512/(double)max) * (abs(ticks)));
 	printf("Rotate: %d Steps\n", stepDegree);
     for(int i = 0; i < stepDegree; ++i){
-        stepStepperOnce(gpio, ticks < 0 ? -1 : 1, max == 10 ? UNLOCKER_STEPPER : LOCK_STEPPER);
+        stepStepperOnce(gpio, ticks < 0 ? -1 : 1, max == 1 ? UNLOCKER_STEPPER : LOCK_STEPPER);
     }
     return ticks < 0 ? -stepDegree : stepDegree;
 }
@@ -97,12 +97,12 @@ int pull(FILE* piblaster){
 int unlock(GPIO_Handle gpio) {
 	printf("Unlocking...\n");
 	fflush(stdout);
-	rotate(gpio, 30, 10);
+	rotate(gpio, 2, 1);
 	usleep(1000000);
 
 	printf("Reseting...\n");
 	fflush(stdout);
-	rotate(gpio, -30, 10);
+	rotate(gpio, -2, 1);
 	usleep(1000000);
 }
 
