@@ -46,7 +46,7 @@ static int gotCombo(void *cbArgs, int argc, char **argv, char **azColName) {
 	printf("Totals Steps:\n%d\n", turns);
 	fflush(stdout);
 
-	pull(((struct LockOpener*) cbArgs)->piBlaster);
+	unlock(((struct LockOpener*) cbArgs)->gpio);
 	reset(((struct LockOpener*) cbArgs)->gpio, num3, LOCK_MAX_VAL);
 
 	printf("Done!\n\n");
@@ -144,7 +144,7 @@ int main() {
 // Spin Stepper Motor 180 Degrees
 void testStepper(GPIO_Handle gpio) {
 	//Testing for stepper motor
-	for (int i = 0; i < 512/4;) {
+	for (int i = 0; i < 512/4; i++) {
 		stepStepperOnce(gpio, -1, 1);
 	}
 

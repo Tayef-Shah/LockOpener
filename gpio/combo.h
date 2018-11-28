@@ -78,6 +78,7 @@ int reset(GPIO_Handle gpio, int num, int max){
 	//}
 	//rotate(gpio, 1, max);
 	stepperOff(gpio);
+	usleep(1000000);
 }
 
 // [Deprecated] Turns the servo motor
@@ -94,7 +95,15 @@ int pull(FILE* piblaster){
 }
 
 int unlock(GPIO_Handle gpio) {
+	printf("Unlocking...");
+	fflush(stdout);
+	rotate(gpio, -200, 40);
+	usleep(1000000);
 
+	printf("Reseting...");
+	fflush(stdout);
+	rotate(gpio, 200, 40);
+	usleep(1000000);
 }
 
 #endif
