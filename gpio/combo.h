@@ -70,11 +70,12 @@ int turn(GPIO_Handle gpio, int max, int first, int second, int third){
 
 //Brings lock back to zero based on the final number it lands on
 int reset(GPIO_Handle gpio, int num, int max){
-	printf("Rotate (Reseting to zero): %d Steps\n", -num);
+	printf("Rotate (Reseting to zero): %d\n", -num);
 	fflush(stdout);
-	for (int i = 0; i < abs(num) + (1 * (512.0 / 40.0)); ++i) {
-		stepStepperOnce(gpio, -num < 0 ? -1 : 1, LOCK_STEPPER);
-	}
+	rotate(gpio, -num, max);
+	//for (int i = 0; i < abs(num) + (1 * (512.0 / 40.0)); ++i) {
+	//	stepStepperOnce(gpio, -num < 0 ? -1 : 1, LOCK_STEPPER);
+	//}
 	//rotate(gpio, 1, max);
 	stepperOff(gpio);
 }
