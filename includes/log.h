@@ -46,7 +46,7 @@ void writeLog(FILE* log, char* name, int error, char* detail) {
 
 //creats log and config, takes in time for log
 FILE* initLogFile(){
-	FILE* log = fopen("log/lockopener.log", "a");
+	FILE* log = fopen("logs/lockopener.log", "a");
 	if(!log){
 		errorMessage(ERR_FILE_OPEN_FAILED);
 	}
@@ -63,7 +63,7 @@ int getLockMax(char* name) {
 	fgets(firstLine, 8, config);
 	int maxNum = atoi(firstLine);
 
-	FILE* cfLog = fopen("log/config_read.log", "a");
+	FILE* cfLog = fopen("logs/config_read.log", "a");
 	if (!cfLog) {
 		errorMessage(ERR_FILE_OPEN_FAILED);
 	}
