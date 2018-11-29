@@ -54,23 +54,27 @@ FILE* initLogFile(){
 }
 
 int getLockMax(char* name) {
+	// Read from config file
 	FILE* config = fopen("lock.config", "r");
 	if (!config) {
 		errorMessage(ERR_FILE_OPEN_FAILED);
 	}
-
 	char firstLine[8];
 	fgets(firstLine, 8, config);
 	int maxNum = atoi(firstLine);
 
+	// Write to config read log file
 	FILE* cfLog = fopen("logs/config_read.log", "a");
 	if (!cfLog) {
 		errorMessage(ERR_FILE_OPEN_FAILED);
 	}
+
 	char out[64];
 	snprintf(out, 64, "Read from config file: maxNum=%d", maxNum);
 	writeLog(cfLog, name, 0, out);
 	fclose(cfLog);
+
+	// Return the config file data
 	return maxNum;
 }
 

@@ -44,12 +44,12 @@ static int gotCombo(void *cbArgs, int argc, char **argv, char **azColName) {
 	printf("Parsed:\n%d - %d - %d\n", num1, num2, num3);
 	fflush(stdout);
 
-	int turns = turn(((struct LockOpener*) cbArgs)->gpio, LOCK_MAX_VAL, num1, num2, num3); 
+	int turns = turn(((struct LockOpener*) cbArgs)->gpio, ((struct LockOpener*) cbArgs)->maxNum, num1, num2, num3);
 	printf("Totals Steps:\n%d\n", turns);
 	fflush(stdout);
 
 	unlock(((struct LockOpener*) cbArgs)->gpio);
-	reset(((struct LockOpener*) cbArgs)->gpio, num3, LOCK_MAX_VAL);
+	reset(((struct LockOpener*) cbArgs)->gpio, num3, ((struct LockOpener*) cbArgs)->maxNum);
 
 	printf("Done!\n\n");
 	fflush(stdout);
@@ -135,20 +135,5 @@ int main(int argc, const char* const argv[]) {
 		usleep(1000000);
 	}
 
-	/*rotate(lockOpener.gpio, 40, 40);
-	rotate(lockOpener.gpio, -40, 40);
-	rotate(lockOpener.gpio, 40, 40);
-	rotate(lockOpener.gpio, -40, 40);
-	rotate(lockOpener.gpio, 40, 40);
-	rotate(lockOpener.gpio, -40, 40);
-	rotate(lockOpener.gpio, 40, 40);
-	rotate(lockOpener.gpio, -40, 40);
-	rotate(lockOpener.gpio, 40, 40);
-	rotate(lockOpener.gpio, -40, 40);
-	rotate(lockOpener.gpio, 40, 40);
-	rotate(lockOpener.gpio, -40, 40);
-	stepperOff(lockOpener.gpio);*/
-
-	//testStepper(lockOpener.gpio);
     return 0;
 }
