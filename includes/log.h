@@ -30,7 +30,7 @@ char* getProgramName(const char* const argv[]){
 	//stores char[] programName without leading path
 	//that's everything before the slash
 	char* progName = malloc(nameLength);
-	for(int j = lastSlash; j <= nameLength; ++j){
+	for(int j = lastSlash; j < nameLength; ++j){
 		progName[j - lastSlash] = argv[0][j];
 	}
 	return progName;
