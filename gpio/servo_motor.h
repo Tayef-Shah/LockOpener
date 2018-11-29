@@ -17,7 +17,6 @@ FILE* servoInit() {
 		writeLog(lockOpener.logFile, lockOpener.name, WARNING, "Failed to open /dev/pi-blaster");
 		safeExit();
 	}
-	printf("Servo Init: %p\n", file);
 	return file;
 }
 

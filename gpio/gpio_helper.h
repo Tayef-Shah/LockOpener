@@ -7,8 +7,6 @@
 #include "../includes/constants.h"
 #include "../includes/log.h"
 
-extern struct LockOpener lockOpener;
-
 //Initialize the GPIO pins
 GPIO_Handle initializeGPIO()
 {
