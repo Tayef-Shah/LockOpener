@@ -40,7 +40,7 @@ char* getProgramName(const char* const argv[]){
 
 //write to log, takes in time, type of error, and detail of log entry
 void writeLog(FILE* log, char* name, int error, char* detail) {
-	fprintf(log, "%s : %s : sev=%d : %s\n", getTime(), name, error, detail);
+	fprintf(log, "%s : %s : sev=%d : %s\n", getTime(), name, errDesc[error], detail);
 	fflush(log);
 }
 
