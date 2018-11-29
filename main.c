@@ -1,4 +1,6 @@
 #include <stdio.h>
+#include <signal.h>
+#include <unistd.h>
 #include <string.h>
 #include <time.h>
 
@@ -97,6 +99,13 @@ static int commandsQueued(void *cbArgs, int argc, char **argv, char **azColName)
 	return 0;
 }
 
+void sig_handler(int signo, struct LockOpener* lockOpener) {
+	if (signo == SIGINT) {
+		writeLog(lockOpener->logFile, lockOpener->name, WARNING, "User has exited the program unexpected with Ctrl-C.");
+		stepperOff(lockOpener->gpio);
+	}
+}
+
 int main(int argc, const char* const argv[]) {
 	struct LockOpener lockOpener;
 
@@ -117,7 +126,13 @@ int main(int argc, const char* const argv[]) {
 
 	//Start Program
 	lockOpener.maxNum = getLockMax(lockOpener.name);
-	writeLog(lockOpener.logFile, lockOpener.name, 0, "System Started!");
+	writeLog(lockOpener.logFile, lockOpener.name, DEBUG, "System Started!");
+
+	//Handle Ctrl-C
+	if (signal(SIGINT, sig_handler) == -1) {
+		writeLog(lockOpener.logFile, lockOpener.name, ERROR, "Failed to initialize sig_handler!");
+		exit(-1);
+	}
 
 	// Program
 	while (1) {

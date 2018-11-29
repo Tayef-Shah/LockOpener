@@ -1,6 +1,8 @@
 #ifndef LOCKOPENER_CONSTS_H
 #define LOCKOPENER_CONSTS_H
 
+enum ERROR {DEBUG, WARNING, ERROR, CRITICAL};
+
 // Define constants for Error codes
 #define ERR_TOO_LITTLE_ARGS 1
 #define ERR_UNKNOWN 2
