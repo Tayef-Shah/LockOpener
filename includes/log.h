@@ -65,8 +65,7 @@ void writeLog(FILE* log, char* name, int error, char* detail) {
 
 //creats log and config, takes in time for log
 FILE* initLogFile(){
-	FILE* log;
-	log = fopen("lockopener.log", "a");
+	FILE* log = fopen("lockopener.log", "a");
 	
 	if(!log){
 		errorMessage(ERR_FILE_OPEN_FAILED);

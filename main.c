@@ -113,6 +113,7 @@ int main(int argc, const char* const argv[]) {
 
 	//Get Program Name
 	lockOpener.name = getProgramName(argv);
+	printf(lockOpener.name);
 
 	//Write Start
 	writeLog(lockOpener.logFile, lockOpener.name, 0, "Program Started!");
