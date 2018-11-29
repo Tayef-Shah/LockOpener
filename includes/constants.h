@@ -28,6 +28,9 @@ struct LockOpener {
 	// Max Lock Number
 	int maxNum;
 
+	//Watchdog File Descriptor
+	int watchDog;
+
 } lockOpener;
 
 #endif

@@ -3,6 +3,7 @@
 #include <unistd.h>
 #include <string.h>
 #include <time.h>
+#include <pthread.h>
 
 #include "../sqlite3.h"
 #include "includes/constants.h"
@@ -17,6 +18,7 @@
 #include "includes/combo.h"
 #include "includes/log.h"
 #include "includes/testing.h"
+#include "includes/watchdog.h"
 
 
 // Turn off GPIO then exit
@@ -27,8 +29,9 @@ void safeExit() {
 
 // Handles Ctrl-C and exit
 void sig_handler(int signo) {
-	if (signo == SIGINT) {
+	if (signo == SIGINT || signo == SIGTERM) {
 		writeLog(lockOpener.logFile, lockOpener.name, WARNING, "User has exited the program unexpected with Ctrl-C.");
+		stopWatchDog();
 		safeExit();
 	}
 }
@@ -144,7 +147,7 @@ int main(int argc, const char* const argv[]) {
 	lockOpener.gpio = initializeGPIO();
 
 	//Initialize Pi-Blaster file
-	lockOpener.piBlaster = servoInit();
+	//lockOpener.piBlaster = servoInit();
 
 	//Initialize Stepper Motor
 	stepperInit(lockOpener.gpio);
@@ -155,6 +158,13 @@ int main(int argc, const char* const argv[]) {
 	//Start Program
 	lockOpener.maxNum = getLockMax(lockOpener.name);
 	writeLog(lockOpener.logFile, lockOpener.name, INFO, "System Started!");
+
+	//Start Watchdog
+	lockOpener.watchDog = initWatchDog();
+
+	//Ping Watchdog
+	pthread_t tid;
+	pthread_create(&tid, NULL, pingWatchDog, (void *)&tid);
 
 	//Handle Ctrl-C
 	if (signal(SIGINT, sig_handler) == SIG_ERR) {
