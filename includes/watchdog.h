@@ -48,6 +48,7 @@ void stopWatchDog() {
 
 	int options = WDIOS_DISABLECARD;
 	ioctl(lockOpener.watchDog, WDIOC_SETOPTIONS, &options);
+	close(lockOpener.watchDog);
 }
 
 #endif
