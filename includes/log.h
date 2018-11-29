@@ -16,6 +16,7 @@ char* getTime() {
 
 	//MM-DD-YYYY HH:MM:SS
 	strftime(timeStr, 30, "%m-%d-%Y  %T.", localtime(&(tv.tv_sec)));
+	return timeStr;
 }
 
 char* getProgramName(const char* const argv[]){
