@@ -103,6 +103,7 @@ void sig_handler(int signo) {
 	if (signo == SIGINT) {
 		writeLog(lockOpener.logFile, lockOpener.name, WARNING, "User has exited the program unexpected with Ctrl-C.");
 		stepperOff(lockOpener.gpio);
+		exit(-1);
 	}
 }
 
