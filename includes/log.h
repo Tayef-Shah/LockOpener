@@ -36,8 +36,8 @@ char* getProgramName(const char* const argv[]){
 	//stores char[] programName without leading path
 	//that's everything before the slash
 	char* progName = malloc(nameLength + 32);
-	for(int j = lastSlash; j < nameLength; ++j){
-		progName[j - lastSlash] = argv[0][j];
+	for(int j = lastSlash + 1; j < nameLength; ++j){
+		progName[j - lastSlash - 1] = argv[0][j];
 	}
 
 	// Get Program PID
