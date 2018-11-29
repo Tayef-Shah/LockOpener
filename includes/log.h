@@ -63,7 +63,7 @@ FILE* initLogFile(){
 	return log;
 }
 
-int getLockMax(char* name) {
+int getConfig(char* name) {
 	// Read from config file
 	FILE* config = fopen("lock.config", "r");
 	if (!config) {
@@ -74,6 +74,10 @@ int getLockMax(char* name) {
 	fgets(firstLine, 8, config);
 	int maxNum = atoi(firstLine);
 
+	char secondLine[8];
+	fgets(secondLine, 8, config);
+	int wdTimer = atoi(secondLine);
+
 	// Write to config read log file
 	FILE* cfLog = fopen("logs/config_read.log", "a");
 	if (!cfLog) {
@@ -82,11 +86,12 @@ int getLockMax(char* name) {
 	}
 
 	char out[64];
-	snprintf(out, 64, "Read from config file: maxNum=%d", maxNum);
+	snprintf(out, 64, "Read from config file: maxNum=%d, watchDogTimer=%d", maxNum, wdTimer);
 	writeLog(cfLog, name, 0, out);
 	fclose(cfLog);
 
 	// Return the config file data
+	lockOpener.watchDogTimer = wdTimer;
 	return maxNum;
 }
 

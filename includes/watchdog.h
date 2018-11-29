@@ -11,15 +11,14 @@
 #include "constants.h"
 #include "log.h"
 
-const int WATCHDOG_TIMEOUT = 10;
-
-int initWatchDog() {
+int initWatchDog(int timer) {
 	int fd = open("/dev/watchdog", O_WRONLY);
 
 	// Set Timeout and enable
+	int wdTimeout = timer;
 	int options = WDIOS_ENABLECARD;
 	ioctl(fd, WDIOC_SETOPTIONS, &options);
-	ioctl(fd, WDIOC_SETTIMEOUT, &WATCHDOG_TIMEOUT);
+	ioctl(fd, WDIOC_SETTIMEOUT, &wdTimeout);
 
 	// Get Timeout
 	int timeout = -1; 

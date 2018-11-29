@@ -30,6 +30,7 @@ struct LockOpener {
 
 	//Watchdog File Descriptor
 	int watchDog;
+	int watchDogTimer;
 
 } lockOpener;
 

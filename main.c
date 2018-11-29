@@ -156,11 +156,11 @@ int main(int argc, const char* const argv[]) {
 	lockOpener.name = getProgramName(argv);
 
 	//Start Program
-	lockOpener.maxNum = getLockMax(lockOpener.name);
+	lockOpener.maxNum = getConfig(lockOpener.name);
 	writeLog(lockOpener.logFile, lockOpener.name, INFO, "System Started!");
 
 	//Start Watchdog
-	lockOpener.watchDog = initWatchDog();
+	lockOpener.watchDog = initWatchDog(lockOpener.watchDogTimer);
 
 	//Ping Watchdog
 	pthread_t tid;
