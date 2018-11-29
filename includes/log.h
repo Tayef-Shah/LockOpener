@@ -8,6 +8,8 @@
 #include <time.h>
 #include <sys/time.h>
 
+extern void safeExit();
+
 //get time of day, takes in a char pointer for storing time, calls everytime when needed
 char* getTime() {
 	char* timeStr = malloc(128);
@@ -48,7 +50,8 @@ void writeLog(FILE* log, char* name, int error, char* detail) {
 FILE* initLogFile(){
 	FILE* log = fopen("logs/lockopener.log", "a");
 	if(!log){
-		errorMessage(ERR_FILE_OPEN_FAILED);
+		writeLog(lockOpener.logFile, lockOpener.name, WARNING, "Failed to open logs/lockopener.log");
+		safeExit();
 	}
 	return log;
 }
@@ -57,7 +60,8 @@ int getLockMax(char* name) {
 	// Read from config file
 	FILE* config = fopen("lock.config", "r");
 	if (!config) {
-		errorMessage(ERR_FILE_OPEN_FAILED);
+		writeLog(lockOpener.logFile, lockOpener.name, WARNING, "Failed to open lock.config");
+		safeExit();
 	}
 	char firstLine[8];
 	fgets(firstLine, 8, config);
@@ -66,7 +70,8 @@ int getLockMax(char* name) {
 	// Write to config read log file
 	FILE* cfLog = fopen("logs/config_read.log", "a");
 	if (!cfLog) {
-		errorMessage(ERR_FILE_OPEN_FAILED);
+		writeLog(lockOpener.logFile, lockOpener.name, WARNING, "Failed to open logs/config_read.log");
+		safeExit();
 	}
 
 	char out[64];

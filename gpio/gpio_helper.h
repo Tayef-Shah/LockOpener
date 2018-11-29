@@ -5,14 +5,19 @@
 #include <stdio.h>
 
 #include "../includes/constants.h"
+#include "../includes/log.h"
+
+extern struct LockOpener lockOpener;
 
 //Initialize the GPIO pins
 GPIO_Handle initializeGPIO()
 {
     GPIO_Handle gpio = gpiolib_init_gpio();
     // Check if the GPIO was initialized correctly
-    if (gpio == NULL) 
-        errorMessage(ERR_GPIO_FAILED);
+	if (gpio == NULL) {
+		writeLog(lockOpener.logFile, lockOpener.name, ERROR, "Failed to initialize GPIO!");
+		safeExit();
+	}
     return gpio;
 }
 
@@ -20,13 +25,17 @@ GPIO_Handle initializeGPIO()
 void setToOutput(GPIO_Handle gpio, int gpioNum) 
 {
     //Check that the gpio is functional
-    if (gpio == NULL)
-        errorMessage(ERR_GPIO_FAILED);
+    if (gpio == NULL) {
+		writeLog(lockOpener.logFile, lockOpener.name, ERROR, "Failed to initialize GPIO!");
+		safeExit();
+	}
 
     //Check that we are trying to set a valid pin number
     //If not, output the corresponding error message
-    if (gpioNum < 2 || gpioNum > 27)
-        errorMessage(ERR_INVALID_PIN);
+    if (gpioNum < 2 || gpioNum > 27) {
+		writeLog(lockOpener.logFile, lockOpener.name, ERROR, "Trying to set output on an invalid GPIO number");
+		safeExit();
+	}
 
     //Find the register number for that corresponding pin
     int registerNum = gpioNum / 10;
@@ -57,8 +66,10 @@ void outputOff(GPIO_Handle gpio, int gpioNum)
 int getState(GPIO_Handle gpio, int gpioNum)
 {
     //If the GPIO was not properly initialized, print and exit program
-    if (gpio == NULL)
-        errorMessage(ERR_GPIO_FAILED);
+    if (gpio == NULL) {
+		writeLog(lockOpener.logFile, lockOpener.name, ERROR, "Failed to initialize GPIO!");
+		safeExit();
+	}
 
     //Read the GPIO states
     uint32_t level_reg = gpiolib_read_reg(gpio, GPLEV(0));

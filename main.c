@@ -5,35 +5,48 @@
 #include <time.h>
 
 #include "../sqlite3.h"
+#include "includes/constants.h"
 
 #include "gpio/gpiolib_addr.h"
 #include "gpio/gpiolib_reg.h"
 #include "gpio/gpio_helper.h"
+
 #include "gpio/stepper_motor.h"
 #include "gpio/servo_motor.h"
 
 #include "includes/combo.h"
 #include "includes/log.h"
-#include "includes/constants.h"
 #include "includes/testing.h"
 
-struct LockOpener {
-	GPIO_Handle gpio;
-	FILE* piBlaster;
-	sqlite3* db;
-	sqlite3_stmt *stmt;
-	char* zErrMsg;
-	FILE* logFile;
-	char* name;
-	int maxNum;
-} lockOpener;
+
+// Turn off GPIO then exit
+void safeExit() {
+	stepperOff(lockOpener.gpio);
+	exit(-1);
+}
+
+// Handles Ctrl-C and exit
+void sig_handler(int signo) {
+	if (signo == SIGINT) {
+		writeLog(lockOpener.logFile, lockOpener.name, WARNING, "User has exited the program unexpected with Ctrl-C.");
+		safeExit();
+	}
+}
 
 static int gotCombo(void *cbArgs, int argc, char **argv, char **azColName) {
 	int num1 = -1, num2 = -1, num3 = -1;
 
-	printf("Got Combo:\n");
+	//Parse Combination
+	char gotCombo[1024];
+	strcat(gotCombo, "Got Combo: ");
 	for (int i = 0; i < argc; i++) {
-		printf("%s = %s\n", azColName[i], argv[i] ? argv[i] : "NULL");
+
+		// Log DB Query
+		char rowData[128];
+		snprintf(rowData, 128, "(%s = %s) ", azColName[i], argv[i] ? argv[i] : "NULL");
+		strcat(gotCombo, rowData);
+
+		// Get Combination Data
 		if (!strncmp(azColName[i], "num1", 4)) {
 			num1 = (int)strtol(argv[i], (char **)NULL, 10);
 		} else if (!strncmp(azColName[i], "num2", 4)) {
@@ -42,19 +55,21 @@ static int gotCombo(void *cbArgs, int argc, char **argv, char **azColName) {
 			num3 = (int)strtol(argv[i], (char **)NULL, 10);
 		}
 	}
+	writeLog(lockOpener.logFile, lockOpener.name, INFO, gotCombo);
 
-	printf("Parsed:\n%d - %d - %d\n", num1, num2, num3);
-	fflush(stdout);
+	// Log Parsed Lock Combination
+	char parseDB[1024];
+	snprintf(parseDB, 1024, "Parsed: %d - %d - %d", num1, num2, num3);
+	writeLog(lockOpener.logFile, lockOpener.name, INFO, parseDB);
 
-	int turns = turn(lockOpener.gpio, lockOpener.maxNum, num1, num2, num3);
-	printf("Totals Steps:\n%d\n", turns);
-	fflush(stdout);
-
+	// Do Lock opening sequence
+	turn(lockOpener.gpio, lockOpener.maxNum, num1, num2, num3);
 	unlock(lockOpener.gpio);
 	reset(lockOpener.gpio, num3, lockOpener.maxNum);
 
-	printf("Done!\n\n");
-	fflush(stdout);
+	// Log Completion
+	writeLog(lockOpener.logFile, lockOpener.name, INFO, "Done Combination Sequence!");
+
 	return 0;
 }
 
@@ -64,9 +79,16 @@ static int commandsQueued(void *cbArgs, int argc, char **argv, char **azColName)
 	char query[1024];
 
 	// Parse DB Data
-	printf("Command Recieved:\n");
+	char cmdRecieved[1024];
+	strcat(cmdRecieved, "Command Recieved: ");
 	for (int i = 0; i < argc; i++) {
-		printf("%s = %s\n", azColName[i], argv[i] ? argv[i] : "NULL");
+
+		// Log DB Query
+		char rowData[128];
+		snprintf(rowData, 128, "(%s = %s) ", azColName[i], argv[i] ? argv[i] : "NULL");
+		strcat(cmdRecieved, rowData);
+
+		// Get Lock ID data
 		if (!strncmp(azColName[i], "data", 4)) {
 			data = argv[i];
 		} else if (!strncmp(azColName[i], "id", 2)) {
@@ -79,10 +101,16 @@ static int commandsQueued(void *cbArgs, int argc, char **argv, char **azColName)
 	strcat(query, "UPDATE commands SET completed = 1 WHERE id = ");
 	strcat(query, commandID);
 	strcat(query, ";");
-	printf("%s\n", query);
-	fflush(stdout);
+
+	// Log DB Query
+	char queryBuffer[2048];
+	strcat(queryBuffer, "SQLite3: [Query] ");
+	strcat(queryBuffer, query);
+
+	// Execute DB Query
 	if (sqlite3_exec(lockOpener.db, query, 0, 0, &(lockOpener.zErrMsg)) != SQLITE_OK) {
-		errorMessage(ERR_DATABASE_QUERY_FAILED);
+		writeLog(lockOpener.logFile, lockOpener.name, ERROR, "SQLite3: Database Query Failed!");
+		safeExit();
 	}
 
 	// Get Combo for lock with ID
@@ -90,21 +118,19 @@ static int commandsQueued(void *cbArgs, int argc, char **argv, char **azColName)
 	strcat(query, "SELECT * FROM data WHERE id = ");
 	strcat(query, data);
 	strcat(query, ";");
-	printf("%s\n", query);
-	fflush(stdout);
+
+	// Log DB Query
+	strcpy(queryBuffer, "");
+	strcat(queryBuffer, "SQLite3: [Query] ");
+	strcat(queryBuffer, query);
+
+	// Execute DB Query
 	if (sqlite3_exec(lockOpener.db, query, gotCombo, cbArgs, &(lockOpener.zErrMsg)) != SQLITE_OK) {
-		errorMessage(ERR_DATABASE_QUERY_FAILED);
+		writeLog(lockOpener.logFile, lockOpener.name, ERROR, "SQLite3: Database Query Failed!");
+		safeExit();
 	}
 
 	return 0;
-}
-
-void sig_handler(int signo) {
-	if (signo == SIGINT) {
-		writeLog(lockOpener.logFile, lockOpener.name, WARNING, "User has exited the program unexpected with Ctrl-C.");
-		stepperOff(lockOpener.gpio);
-		exit(-1);
-	}
 }
 
 int main(int argc, const char* const argv[]) {
@@ -125,12 +151,12 @@ int main(int argc, const char* const argv[]) {
 
 	//Start Program
 	lockOpener.maxNum = getLockMax(lockOpener.name);
-	writeLog(lockOpener.logFile, lockOpener.name, DEBUG, "System Started!");
+	writeLog(lockOpener.logFile, lockOpener.name, INFO, "System Started!");
 
 	//Handle Ctrl-C
 	if (signal(SIGINT, sig_handler) == SIG_ERR) {
 		writeLog(lockOpener.logFile, lockOpener.name, ERROR, "Failed to initialize sig_handler!");
-		exit(-1);
+		safeExit();
 	}
 
 	// Program
@@ -138,13 +164,25 @@ int main(int argc, const char* const argv[]) {
 		//Initialize SQLite DB
 		lockOpener.zErrMsg = 0;
 		if (sqlite3_open(SQLITE_DB, &(lockOpener.db))) {
-			errorMessage(ERR_DATABASE_OPEN_FAILED);
+			writeLog(lockOpener.logFile, lockOpener.name, ERROR, "SQLite3: Failed to open database!");
+			safeExit();
 		}
-		// Check DB for commands
+
+		// Log DB Query
 		char* query = "SELECT * FROM commands WHERE completed = 0;";
+		char logBuffer[2048];
+		strcat(logBuffer, "SQLite3: [Query] ");
+		strcat(logBuffer, query);
+		writeLog(lockOpener.logFile, lockOpener.name, INFO, logBuffer);
+
+		// Check DB for commands
 		if (sqlite3_exec(lockOpener.db, query, commandsQueued, &lockOpener, &(lockOpener.zErrMsg)) != SQLITE_OK) {
-			errorMessage(ERR_DATABASE_QUERY_FAILED);
+			writeLog(lockOpener.logFile, lockOpener.name, ERROR, "SQLite3: Database Query Failed!");
+			safeExit();
 		}
+
+		// Log DB Transaction
+		writeLog(lockOpener.logFile, lockOpener.name, INFO, "SQLite3: DB Transaction Finished!");
 		sqlite3_close(lockOpener.db);
 		usleep(1000000);
 	}

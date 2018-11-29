@@ -4,7 +4,9 @@
 #include "gpiolib_addr.h"
 #include "gpiolib_reg.h"
 #include "gpio_helper.h"
+
 #include "../includes/constants.h"
+#include "../includes/log.h"
 
 const int STEPPER_PIN[2][4] = { { 6, 13, 19, 26 },
 								{ 27, 22, 23, 24 } };
@@ -27,7 +29,7 @@ void stepperInit(GPIO_Handle gpio) {
 
 void stepperOff(GPIO_Handle gpio) {
 	// Reset GPIO Pins
-	printf("Turn GPIO Pins Off\n");
+	writeLog(lockOpener.logFile, lockOpener.name, INFO, "Turned both stepper motors off");
 	for (int i = 0; i < 4; ++i) {
 		outputOff(gpio, STEPPER_PIN[LOCK_STEPPER][i]);
 		outputOff(gpio, STEPPER_PIN[UNLOCKER_STEPPER][i]);
@@ -36,7 +38,6 @@ void stepperOff(GPIO_Handle gpio) {
 
 //Step once (512 per rotation), in direction (1 for CW, -1 for CCW)
 void stepStepperOnce(GPIO_Handle gpio, int direction, int stepper) {
-	//printf("Stepper Motor (%d) - Stepping Once\n", direction);
     for (int a = 0; a < 8; ++a) {
         for (int i = 0; i < 4; ++i) {
             int index = i;

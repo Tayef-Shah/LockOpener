@@ -13,16 +13,20 @@ const double SERVOMAX = 0.2;
 
 FILE* servoInit() {
 	FILE* file = fopen(PIBLASTER_FILE, "w");
-	if (file == NULL)
-		errorMessage(ERR_FILE_OPEN_FAILED);
+	if (file == NULL) {
+		writeLog(lockOpener.logFile, lockOpener.name, WARNING, "Failed to open /dev/pi-blaster");
+		safeExit();
+	}
 	printf("Servo Init: %p\n", file);
 	return file;
 }
 
 // Turn the servo, in percentage from 0 to 1
 void setServoPosition(FILE* piblaster, double percentage) {
-	if (percentage < 0 || percentage > 1)
-		errorMessage(ERR_INCORRECT_PERCENTAGE);
+	if (percentage < 0 || percentage > 1) {
+		writeLog(lockOpener.logFile, lockOpener.name, ERROR, "Set Servo Position must be between 0 and 1");
+		safeExit();
+	}
 
 	//printf("Setting Servo Position:\n%d=%f (Percentage: %f)\n", SERVOPIN, SERVOMIN + ((SERVOMAX - SERVOMIN) * percentage), percentage);
 	fprintf(piblaster, "%d=%f\n", SERVOPIN, SERVOMIN + ((SERVOMAX - SERVOMIN) * percentage));

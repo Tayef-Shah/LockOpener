@@ -1,29 +1,33 @@
 #ifndef LOCKOPENER_CONSTS_H
 #define LOCKOPENER_CONSTS_H
 
-enum ERROR {DEBUG, WARNING, ERROR, CRITICAL};
-const char errDesc[4][12] = { "Debug", "Warning", "Error", "Critical"};
+#include "../gpio/gpiolib_reg.h"
 
-// Define constants for Error codes
-#define ERR_TOO_LITTLE_ARGS 1
-#define ERR_UNKNOWN 2
-#define ERR_GPIO_FAILED 3
-#define ERR_INVALID_PIN 4
-#define ERR_INCORRECT_PERCENTAGE 5
-#define ERR_FILE_OPEN_FAILED 6
-#define ERR_DATABASE_OPEN_FAILED 7
-#define ERR_DATABASE_QUERY_FAILED 8
+enum ERROR {INFO, DEBUG, WARNING, ERROR, CRITICAL};
+const char errDesc[5][12] = { "Info", "Debug", "Warning", "Error", "Critical"};
 
 const char* SQLITE_DB = "site/database/db.db3";
 
 const int LOCK_STEPPER = 0;
 const int UNLOCKER_STEPPER = 1;
 
-//Output error message and exit
-void errorMessage(const int errorCode)
-{
-	fprintf(stderr, "An error occured; the error code was %d \n", errorCode);
-	exit(-1);
-}
+struct LockOpener {
+	// GPIO
+	GPIO_Handle gpio;
+	FILE* piBlaster;
+
+	// SQLite3
+	sqlite3* db;
+	sqlite3_stmt *stmt;
+	char* zErrMsg;
+
+	// Log File
+	FILE* logFile;
+	// Program Name
+	char* name;
+	// Max Lock Number
+	int maxNum;
+
+} lockOpener;
 
 #endif
