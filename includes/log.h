@@ -44,7 +44,8 @@ char* getProgramName(const char* const argv[]){
 
 //write to log, takes in time, type of error, and detail of log entry
 void writeLog(FILE* log, char* name, int error, char* detail) {
-	fprintf(log, "%p : %p : sev=%d : %p", getTime(), name, error, detail);
+	fprintf(log, "%s : %s : sev=%d : %s", getTime(), name, error, detail);
+	fflush(log);
 }
 
 //read any file and returns what is being read
