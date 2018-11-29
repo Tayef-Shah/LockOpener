@@ -168,21 +168,12 @@ int main(int argc, const char* const argv[]) {
 			safeExit();
 		}
 
-		// Log DB Query
-		char* query = "SELECT * FROM commands WHERE completed = 0;";
-		char logBuffer[2048];
-		strcat(logBuffer, "SQLite3: [Query] ");
-		strcat(logBuffer, query);
-		writeLog(lockOpener.logFile, lockOpener.name, INFO, logBuffer);
-
 		// Check DB for commands
+		char* query = "SELECT * FROM commands WHERE completed = 0;";
 		if (sqlite3_exec(lockOpener.db, query, commandsQueued, &lockOpener, &(lockOpener.zErrMsg)) != SQLITE_OK) {
 			writeLog(lockOpener.logFile, lockOpener.name, ERROR, "SQLite3: Database Query Failed!");
 			safeExit();
 		}
-
-		// Log DB Transaction
-		writeLog(lockOpener.logFile, lockOpener.name, INFO, "SQLite3: DB Transaction Finished!");
 		sqlite3_close(lockOpener.db);
 		usleep(1000000);
 	}
