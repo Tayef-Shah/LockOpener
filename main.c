@@ -26,7 +26,7 @@ struct LockOpener {
 	FILE* logFile;
 	char* name;
 	int maxNum;
-};
+} lockOpener;
 
 static int gotCombo(void *cbArgs, int argc, char **argv, char **azColName) {
 	int num1 = -1, num2 = -1, num3 = -1;
@@ -46,12 +46,12 @@ static int gotCombo(void *cbArgs, int argc, char **argv, char **azColName) {
 	printf("Parsed:\n%d - %d - %d\n", num1, num2, num3);
 	fflush(stdout);
 
-	int turns = turn(((struct LockOpener*) cbArgs)->gpio, ((struct LockOpener*) cbArgs)->maxNum, num1, num2, num3);
+	int turns = turn(lockOpener.gpio, lockOpener.maxNum, num1, num2, num3);
 	printf("Totals Steps:\n%d\n", turns);
 	fflush(stdout);
 
-	unlock(((struct LockOpener*) cbArgs)->gpio);
-	reset(((struct LockOpener*) cbArgs)->gpio, num3, ((struct LockOpener*) cbArgs)->maxNum);
+	unlock(lockOpener.gpio);
+	reset(lockOpener.gpio, num3, lockOpener.maxNum);
 
 	printf("Done!\n\n");
 	fflush(stdout);
@@ -81,7 +81,7 @@ static int commandsQueued(void *cbArgs, int argc, char **argv, char **azColName)
 	strcat(query, ";");
 	printf("%s\n", query);
 	fflush(stdout);
-	if (sqlite3_exec(((struct LockOpener*) cbArgs)->db, query, 0, 0, &(((struct LockOpener*) cbArgs)->zErrMsg)) != SQLITE_OK) {
+	if (sqlite3_exec(lockOpener.db, query, 0, 0, &(lockOpener.zErrMsg)) != SQLITE_OK) {
 		errorMessage(ERR_DATABASE_QUERY_FAILED);
 	}
 
@@ -92,23 +92,21 @@ static int commandsQueued(void *cbArgs, int argc, char **argv, char **azColName)
 	strcat(query, ";");
 	printf("%s\n", query);
 	fflush(stdout);
-	if (sqlite3_exec(((struct LockOpener*) cbArgs)->db, query, gotCombo, cbArgs, &(((struct LockOpener*) cbArgs)->zErrMsg)) != SQLITE_OK) {
+	if (sqlite3_exec(lockOpener.db, query, gotCombo, cbArgs, &(lockOpener.zErrMsg)) != SQLITE_OK) {
 		errorMessage(ERR_DATABASE_QUERY_FAILED);
 	}
 
 	return 0;
 }
 
-void sig_handler(int signo, struct LockOpener* lockOpener) {
+void sig_handler(int signo) {
 	if (signo == SIGINT) {
-		writeLog(lockOpener->logFile, lockOpener->name, WARNING, "User has exited the program unexpected with Ctrl-C.");
-		stepperOff(lockOpener->gpio);
+		writeLog(lockOpener.logFile, lockOpener.name, WARNING, "User has exited the program unexpected with Ctrl-C.");
+		stepperOff(lockOpener.gpio);
 	}
 }
 
 int main(int argc, const char* const argv[]) {
-	struct LockOpener lockOpener;
-
 	//Initialize Log File
 	lockOpener.logFile = initLogFile();
 
@@ -129,7 +127,7 @@ int main(int argc, const char* const argv[]) {
 	writeLog(lockOpener.logFile, lockOpener.name, DEBUG, "System Started!");
 
 	//Handle Ctrl-C
-	if (signal(SIGINT, sig_handler) == -1) {
+	if (signal(SIGINT, sig_handler) == SIG_ERR) {
 		writeLog(lockOpener.logFile, lockOpener.name, ERROR, "Failed to initialize sig_handler!");
 		exit(-1);
 	}
