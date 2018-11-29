@@ -16,7 +16,7 @@ const int DEFAULT_WATCHDOG = 10;
 int initWatchDog(int timer) {
 	int fd = open("/dev/watchdog", O_WRONLY);
 
-	// Set Timeout and enable
+	// Set Timeout and enable 
 	int wdTimeout = timer;
 	if (timer < 0)
 		wdTimeout = DEFAULT_WATCHDOG;
@@ -44,7 +44,7 @@ void* pingWatchDog(void *vargp) {
 }
 
 void stopWatchDog() {
-	// Log Watchdog
+	// Log Watchdog 
 	char buffer[128];
 	snprintf(buffer, 128, "Watchdog has been disabled.");
 	writeLog(lockOpener.logFile, lockOpener.name, INFO, buffer);
