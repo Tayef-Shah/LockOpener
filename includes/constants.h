@@ -2,6 +2,7 @@
 #define LOCKOPENER_CONSTS_H
 
 enum ERROR {DEBUG, WARNING, ERROR, CRITICAL};
+const char errDesc[4][12] = { "Debug", "Warning", "Error", "Critical"};
 
 // Define constants for Error codes
 #define ERR_TOO_LITTLE_ARGS 1
