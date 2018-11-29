@@ -38,7 +38,7 @@ static int gotCombo(void *cbArgs, int argc, char **argv, char **azColName) {
 
 	//Parse Combination
 	char gotCombo[1024];
-	strcat(gotCombo, "Got Combo: ");
+	strcpy(gotCombo, "Got Combo: ");
 	for (int i = 0; i < argc; i++) {
 
 		// Log DB Query
@@ -80,7 +80,7 @@ static int commandsQueued(void *cbArgs, int argc, char **argv, char **azColName)
 
 	// Parse DB Data
 	char cmdRecieved[1024];
-	strcat(cmdRecieved, "Command Recieved: ");
+	strcpy(cmdRecieved, "Command Recieved: ");
 	for (int i = 0; i < argc; i++) {
 
 		// Log DB Query
@@ -104,7 +104,7 @@ static int commandsQueued(void *cbArgs, int argc, char **argv, char **azColName)
 
 	// Log DB Query
 	char queryBuffer[2048];
-	strcat(queryBuffer, "SQLite3: [Query] ");
+	strcpy(queryBuffer, "SQLite3: [Query] ");
 	strcat(queryBuffer, query);
 
 	// Execute DB Query
