@@ -1,1 +1,1 @@
-arm-linux-gnueabihf-gcc -g -std=c99 -lpthread -ldl -o builds/debug main.c gpio/gpiolib_reg.c ../sqlite3.c
+arm-linux-gnueabihf-gcc -g -std=c99 -lpthread -ldl -o LockOpener main.c gpio/gpiolib_reg.c ../sqlite3.c
