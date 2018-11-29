@@ -95,6 +95,7 @@ static int commandsQueued(void *cbArgs, int argc, char **argv, char **azColName)
 			commandID = argv[i];
 		}
 	}
+	writeLog(lockOpener.logFile, lockOpener.name, INFO, cmdRecieved);
 
 	// Update DB
 	strcpy(query, "");
@@ -106,6 +107,7 @@ static int commandsQueued(void *cbArgs, int argc, char **argv, char **azColName)
 	char queryBuffer[2048];
 	strcpy(queryBuffer, "SQLite3: [Query] ");
 	strcat(queryBuffer, query);
+	writeLog(lockOpener.logFile, lockOpener.name, INFO, queryBuffer);
 
 	// Execute DB Query
 	if (sqlite3_exec(lockOpener.db, query, 0, 0, &(lockOpener.zErrMsg)) != SQLITE_OK) {
@@ -123,6 +125,7 @@ static int commandsQueued(void *cbArgs, int argc, char **argv, char **azColName)
 	strcpy(queryBuffer, "");
 	strcat(queryBuffer, "SQLite3: [Query] ");
 	strcat(queryBuffer, query);
+	writeLog(lockOpener.logFile, lockOpener.name, INFO, queryBuffer);
 
 	// Execute DB Query
 	if (sqlite3_exec(lockOpener.db, query, gotCombo, cbArgs, &(lockOpener.zErrMsg)) != SQLITE_OK) {
