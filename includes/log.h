@@ -22,7 +22,7 @@ char* getProgramName(const char* const argv[]){
 	//finds the length of argv[0]
 	int nameLength = 0, lastSlash = -1;
 	while (argv[0][nameLength] != 0) {
-		if (argv[0][nameLength] == '\\' || argv[0][nameLength++] == '/')
+		if (argv[0][nameLength] == '\\' || argv[0][nameLength] == '/')
 			lastSlash = nameLength;
 		nameLength++;
 	}
