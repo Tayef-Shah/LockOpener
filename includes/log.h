@@ -71,7 +71,7 @@ FILE* initLogFile(){
 	if(!log){
 		errorMessage(ERR_FILE_OPEN_FAILED);
 	}	
-	return 0;
+	return log;
 }
 
 #endif
