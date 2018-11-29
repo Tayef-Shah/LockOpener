@@ -23,6 +23,7 @@ struct LockOpener {
 	char* zErrMsg;
 	FILE* logFile;
 	char* name;
+	int maxNum;
 };
 
 static int gotCombo(void *cbArgs, int argc, char **argv, char **azColName) {
@@ -113,10 +114,10 @@ int main(int argc, const char* const argv[]) {
 
 	//Get Program Name
 	lockOpener.name = getProgramName(argv);
-	printf("%s", lockOpener.name);
 
-	//Write Start
-	writeLog(lockOpener.logFile, lockOpener.name, 0, "Program Started!");
+	//Start Program
+	lockOpener.maxNum = getLockMax(lockOpener.name);
+	writeLog(lockOpener.logFile, lockOpener.name, 0, "System Started!");
 
 	// Program
 	while (1) {

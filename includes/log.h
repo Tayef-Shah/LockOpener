@@ -4,10 +4,11 @@
 #include "constants.h"
 
 #include <stdio.h>
+#include <stdlib.h>
 #include <time.h>
 #include <sys/time.h>
 
-//get time of day, takes in a char pointer (char []) for storing time, calls everytime when needed
+//get time of day, takes in a char pointer for storing time, calls everytime when needed
 char* getTime() {
 	char* timeStr = malloc(128);
 
@@ -15,7 +16,7 @@ char* getTime() {
 	gettimeofday(&tv, NULL);
 
 	//MM-DD-YYYY HH:MM:SS
-	strftime(timeStr, 30, "%m-%d-%Y  %T.", localtime(&(tv.tv_sec)));
+	strftime(timeStr, 30, "%m-%d-%Y %T.", localtime(&(tv.tv_sec)));
 	return timeStr;
 }
 
@@ -37,42 +38,40 @@ char* getProgramName(const char* const argv[]){
 	return progName;
 }
 
-//write to any file, takes in file name and what to write
-/*void writeFile(FILE* file, char* str){	
-	fprintf(file, "%s", str);
-}*/
-
 //write to log, takes in time, type of error, and detail of log entry
 void writeLog(FILE* log, char* name, int error, char* detail) {
-	fprintf(log, "%s : %s : sev=%d : %s", getTime(), name, error, detail);
+	fprintf(log, "%s : %s : sev=%d : %s\n", getTime(), name, error, detail);
 	fflush(log);
 }
 
-//read any file and returns what is being read
-/*char* readFile(char name []){
-	char input[1024];
-	
-	for(int i = 0; i < 1024; i++){
-		input[i] = 0;
-	}
-	FILE* fprt = fopen("/" + *name, "r");
-	if(fprt == NULL){
-		return NULL;
-	}
-	
-	fgets(input, 1024, fprt);
-	fclose(fprt);
-	return input;
-}*/
-
 //creats log and config, takes in time for log
 FILE* initLogFile(){
-	FILE* log = fopen("lockopener.log", "a");
-	
+	FILE* log = fopen("log/lockopener.log", "a");
 	if(!log){
 		errorMessage(ERR_FILE_OPEN_FAILED);
-	}	
+	}
 	return log;
+}
+
+int getLockMax(char* name) {
+	FILE* config = fopen("lock.config", "r");
+	if (!config) {
+		errorMessage(ERR_FILE_OPEN_FAILED);
+	}
+
+	char firstLine[8];
+	fgets(firstLine, 8, config);
+	int maxNum = atoi(firstLine);
+
+	FILE* cfLog = fopen("log/config_read.log", "a");
+	if (!cfLog) {
+		errorMessage(ERR_FILE_OPEN_FAILED);
+	}
+	char out[64];
+	snprintf(out, 64, "Read from config file: maxNum=%d", maxNum);
+	writeLog(cfLog, name, 0, out);
+	fclose(cfLog);
+	return maxNum;
 }
 
 #endif
