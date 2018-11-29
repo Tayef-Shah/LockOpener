@@ -1,20 +1,19 @@
 #include <stdio.h>
 #include <string.h>
+#include <time.h>
 
 #include "../sqlite3.h"
 
 #include "gpio/gpiolib_addr.h"
 #include "gpio/gpiolib_reg.h"
 #include "gpio/gpio_helper.h"
-
 #include "gpio/stepper_motor.h"
 #include "gpio/servo_motor.h"
-#include "gpio/combo.h"
 
+#include "includes/combo.h"
+#include "includes/log.h"
 #include "includes/constants.h"
-
-void testStepper(GPIO_Handle gpio);
-void testServo(FILE* file);
+#include "includes/testing.h"
 
 struct LockOpener {
 	GPIO_Handle gpio;
@@ -22,6 +21,8 @@ struct LockOpener {
 	sqlite3* db;
 	sqlite3_stmt *stmt;
 	char* zErrMsg;
+	FILE* logFile;
+	char* name;
 };
 
 static int gotCombo(void *cbArgs, int argc, char **argv, char **azColName) {
@@ -95,8 +96,11 @@ static int commandsQueued(void *cbArgs, int argc, char **argv, char **azColName)
 	return 0;
 }
 
-int main() {
+int main(int argc, const char* const argv[]) {
 	struct LockOpener lockOpener;
+
+	//Initialize Log File
+	lockOpener.logFile = initLogFile();
 
     //Initialize the GPIO pins
 	lockOpener.gpio = initializeGPIO();
@@ -106,6 +110,12 @@ int main() {
 
 	//Initialize Stepper Motor
 	stepperInit(lockOpener.gpio);
+
+	//Get Program Name
+	lockOpener.name = getProgramName(argv);
+
+	//Write Start
+	writeLog(lockOpener.logFile, lockOpener.name, 0, "Program Started!");
 
 	// Program
 	while (1) {
@@ -139,21 +149,4 @@ int main() {
 
 	//testStepper(lockOpener.gpio);
     return 0;
-}
-
-// Spin Stepper Motor 180 Degrees
-void testStepper(GPIO_Handle gpio) {
-	//Testing for stepper motor
-	for (int i = 0; i < 512/4; i++) {
-		stepStepperOnce(gpio, -1, 1);
-	}
-
-	stepperOff(gpio);
-}
-
-// Set servo to max, sleep 2 second, then set it to min
-void testServo(FILE* file) {
-	setServoPosition(file, 1);
-	usleep(2000000);
-	setServoPosition(file, 0);
 }

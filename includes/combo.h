@@ -3,8 +3,8 @@
 
 #include <math.h>
 #include <stdlib.h>
-#include "stepper_motor.h"
-#include "servo_motor.h"
+#include "../gpio/stepper_motor.h"
+#include "../gpio/servo_motor.h"
 
 // [Deprecated] Adjustment Factor
 // const float LOCK_ADJ = 0.5;
@@ -73,10 +73,7 @@ int reset(GPIO_Handle gpio, int num, int max){
 	printf("Rotate (Reseting to zero): %d\n", -num);
 	fflush(stdout);
 	rotate(gpio, -num - 1, max);
-	//for (int i = 0; i < abs(num) + (1 * (512.0 / 40.0)); ++i) {
-	//	stepStepperOnce(gpio, -num < 0 ? -1 : 1, LOCK_STEPPER);
-	//}
-	//rotate(gpio, 1, max);
+
 	stepperOff(gpio);
 	usleep(1000000);
 }
