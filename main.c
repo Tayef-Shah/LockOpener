@@ -30,7 +30,7 @@ void safeExit() {
 // Handles Ctrl-C and exit
 void sig_handler(int signo) {
 	if (signo == SIGINT || signo == SIGTERM) {
-		writeLog(lockOpener.logFile, lockOpener.name, WARNING, "User has exited the program unexpected with Ctrl-C.");
+		writeLog(lockOpener.logFile, lockOpener.name, WARNING, "Program Exited (by Ctrl-C or systemd)!.");
 		stopWatchDog();
 		safeExit();
 	}
