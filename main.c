@@ -162,7 +162,7 @@ int main(int argc, const char* const argv[]) {
 		safeExit();
 	}
 
-	// Program
+	// Run Program
 	while (1) {
 		//Initialize SQLite DB
 		lockOpener.zErrMsg = 0;
