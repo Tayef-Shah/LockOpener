@@ -5,8 +5,10 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <unistd.h>
 #include <time.h>
 #include <sys/time.h>
+#include <sys/types.h>
 
 extern void safeExit();
 
@@ -33,10 +35,15 @@ char* getProgramName(const char* const argv[]){
 	
 	//stores char[] programName without leading path
 	//that's everything before the slash
-	char* progName = malloc(nameLength);
+	char* progName = malloc(nameLength + 32);
 	for(int j = lastSlash; j < nameLength; ++j){
 		progName[j - lastSlash] = argv[0][j];
 	}
+
+	// Get Program PID
+	char buffer[32];
+	snprintf(buffer, 32, " (PID:%d)", getpid());
+	strcat(progName, buffer);
 	return progName;
 }
 
