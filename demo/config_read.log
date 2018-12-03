@@ -1,0 +1,7 @@
+11-29-2018 12:08:48. : LockOpener (PID:877) : sev=Info : Read from config file: maxNum=40, watchDogTimer=13
+11-29-2018 12:09:56. : LockOpener (PID:456) : sev=Info : Read from config file: maxNum=40, watchDogTimer=13
+11-29-2018 12:12:52. : LockOpener (PID:452) : sev=Info : Read from config file: maxNum=40, watchDogTimer=13
+11-29-2018 15:37:36. : LockOpener (PID:465) : sev=Info : Read from config file: maxNum=40, watchDogTimer=13
+11-29-2018 16:16:15. : LockOpener (PID:454) : sev=Info : Read from config file: maxNum=40, watchDogTimer=8
+11-29-2018 16:20:53. : LockOpener (PID:605) : sev=Info : Read from config file: maxNum=40, watchDogTimer=-1
+11-29-2018 16:25:42. : LockOpener (PID:455) : sev=Info : Read from config file: maxNum=40, watchDogTimer=-1

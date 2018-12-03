@@ -1,0 +1,105 @@
+11-29-2018 12:08:48. : LockOpener (PID:877) : sev=Info : System Started!
+11-29-2018 12:08:48. : LockOpener (PID:877) : sev=Info : Watchdog has been enabled with timeout 13 seconds.
+11-29-2018 12:08:48. : LockOpener (PID:877) : sev=Info : Command Recieved: (id = 26) (data = 0) (completed = 0) (time = 17:08:31) 
+11-29-2018 12:08:48. : LockOpener (PID:877) : sev=Info : SQLite3: [Query] UPDATE commands SET completed = 1 WHERE id = 26;
+11-29-2018 12:08:48. : LockOpener (PID:877) : sev=Info : SQLite3: [Query] SELECT * FROM data WHERE id = 0;
+11-29-2018 12:08:48. : LockOpener (PID:877) : sev=Info : Got Combo: (id = 0) (num1 = 34) (num2 = 18) (num3 = 21) 
+11-29-2018 12:08:48. : LockOpener (PID:877) : sev=Info : Parsed: 34 - 18 - 21
+11-29-2018 12:08:48. : LockOpener (PID:877) : sev=Info : Starting Turning!
+11-29-2018 12:08:48. : LockOpener (PID:877) : sev=Info : Rotate (Num1): -86
+11-29-2018 12:08:48. : LockOpener (PID:877) : sev=Debug : Rotate: 1100 Steps
+11-29-2018 12:09:08. : LockOpener (PID:877) : sev=Info : Rotate (Num2): 40
+11-29-2018 12:09:08. : LockOpener (PID:877) : sev=Debug : Rotate: 512 Steps
+11-29-2018 12:09:16. : LockOpener (PID:877) : sev=Info : Rotate: 24
+11-29-2018 12:09:16. : LockOpener (PID:877) : sev=Debug : Rotate: 307 Steps
+11-29-2018 12:09:23. : LockOpener (PID:877) : sev=Info : Rotate (Num3): -37
+11-29-2018 12:09:23. : LockOpener (PID:877) : sev=Debug : Rotate: 473 Steps
+11-29-2018 12:09:31. : LockOpener (PID:877) : sev=Info : Unlocking Lock
+11-29-2018 12:09:31. : LockOpener (PID:877) : sev=Debug : Rotate: 1024 Steps
+11-29-2018 12:09:50. : LockOpener (PID:877) : sev=Info : Resetting Unlocker
+11-29-2018 12:09:50. : LockOpener (PID:877) : sev=Debug : Rotate: 1024 Steps
+11-29-2018 12:10:08. : LockOpener (PID:877) : sev=Info : Rotate (Reseting to zero): -21
+11-29-2018 12:10:08. : LockOpener (PID:877) : sev=Debug : Rotate: 281 Steps
+11-29-2018 12:10:12. : LockOpener (PID:877) : sev=Info : Turned both stepper motors off
+11-29-2018 12:10:13. : LockOpener (PID:877) : sev=Info : Done Combination Sequence!
+11-29-2018 12:09:56. : LockOpener (PID:456) : sev=Info : System Started!
+11-29-2018 12:09:56. : LockOpener (PID:456) : sev=Info : Watchdog has been enabled with timeout 13 seconds.
+11-29-2018 12:12:52. : LockOpener (PID:452) : sev=Info : System Started!
+11-29-2018 12:12:52. : LockOpener (PID:452) : sev=Info : Watchdog has been enabled with timeout 13 seconds.
+11-29-2018 15:07:18. : LockOpener (PID:452) : sev=Info : Command Recieved: (id = 27) (data = 0) (completed = 0) (time = 20:07:18) 
+11-29-2018 15:07:18. : LockOpener (PID:452) : sev=Info : SQLite3: [Query] UPDATE commands SET completed = 1 WHERE id = 27;
+11-29-2018 15:07:18. : LockOpener (PID:452) : sev=Info : SQLite3: [Query] SELECT * FROM data WHERE id = 0;
+11-29-2018 15:07:18. : LockOpener (PID:452) : sev=Info : Got Combo: (id = 0) (num1 = 34) (num2 = 18) (num3 = 21) 
+11-29-2018 15:07:18. : LockOpener (PID:452) : sev=Info : Parsed: 34 - 18 - 21
+11-29-2018 15:07:18. : LockOpener (PID:452) : sev=Info : Starting Turning!
+11-29-2018 15:07:18. : LockOpener (PID:452) : sev=Info : Rotate (Num1): -86
+11-29-2018 15:07:18. : LockOpener (PID:452) : sev=Debug : Rotate: 1100 Steps
+11-29-2018 15:07:37. : LockOpener (PID:452) : sev=Info : Rotate (Num2): 40
+11-29-2018 15:07:37. : LockOpener (PID:452) : sev=Debug : Rotate: 512 Steps
+11-29-2018 15:07:46. : LockOpener (PID:452) : sev=Info : Rotate: 24
+11-29-2018 15:07:46. : LockOpener (PID:452) : sev=Debug : Rotate: 307 Steps
+11-29-2018 15:07:52. : LockOpener (PID:452) : sev=Info : Rotate (Num3): -37
+11-29-2018 15:07:52. : LockOpener (PID:452) : sev=Debug : Rotate: 473 Steps
+11-29-2018 15:08:01. : LockOpener (PID:452) : sev=Info : Unlocking Lock
+11-29-2018 15:08:01. : LockOpener (PID:452) : sev=Debug : Rotate: 1024 Steps
+11-29-2018 15:08:19. : LockOpener (PID:452) : sev=Info : Resetting Unlocker
+11-29-2018 15:08:19. : LockOpener (PID:452) : sev=Debug : Rotate: 1024 Steps
+11-29-2018 15:08:37. : LockOpener (PID:452) : sev=Info : Rotate (Reseting to zero): -21
+11-29-2018 15:08:37. : LockOpener (PID:452) : sev=Debug : Rotate: 281 Steps
+11-29-2018 15:08:42. : LockOpener (PID:452) : sev=Info : Turned both stepper motors off
+11-29-2018 15:08:43. : LockOpener (PID:452) : sev=Info : Done Combination Sequence!
+11-29-2018 15:37:36. : LockOpener (PID:465) : sev=Info : System Started!
+11-29-2018 15:37:36. : LockOpener (PID:465) : sev=Info : Watchdog has been enabled with timeout 13 seconds.
+11-29-2018 16:12:02. : LockOpener (PID:465) : sev=Info : Command Recieved: (id = 28) (data = 0) (completed = 0) (time = 21:12:01) 
+11-29-2018 16:12:02. : LockOpener (PID:465) : sev=Info : SQLite3: [Query] UPDATE commands SET completed = 1 WHERE id = 28;
+11-29-2018 16:12:02. : LockOpener (PID:465) : sev=Info : SQLite3: [Query] SELECT * FROM data WHERE id = 0;
+11-29-2018 16:12:02. : LockOpener (PID:465) : sev=Info : Got Combo: (id = 0) (num1 = 34) (num2 = 18) (num3 = 21) 
+11-29-2018 16:12:02. : LockOpener (PID:465) : sev=Info : Parsed: 34 - 18 - 21
+11-29-2018 16:12:02. : LockOpener (PID:465) : sev=Info : Starting Turning!
+11-29-2018 16:12:02. : LockOpener (PID:465) : sev=Info : Rotate (Num1): -86
+11-29-2018 16:12:02. : LockOpener (PID:465) : sev=Debug : Rotate: 1100 Steps
+11-29-2018 16:12:22. : LockOpener (PID:465) : sev=Info : Rotate (Num2): 40
+11-29-2018 16:12:22. : LockOpener (PID:465) : sev=Debug : Rotate: 512 Steps
+11-29-2018 16:12:30. : LockOpener (PID:465) : sev=Info : Rotate: 24
+11-29-2018 16:12:30. : LockOpener (PID:465) : sev=Debug : Rotate: 307 Steps
+11-29-2018 16:12:37. : LockOpener (PID:465) : sev=Info : Rotate (Num3): -37
+11-29-2018 16:12:37. : LockOpener (PID:465) : sev=Debug : Rotate: 473 Steps
+11-29-2018 16:12:46. : LockOpener (PID:465) : sev=Info : Unlocking Lock
+11-29-2018 16:12:46. : LockOpener (PID:465) : sev=Debug : Rotate: 1024 Steps
+11-29-2018 16:13:04. : LockOpener (PID:465) : sev=Info : Resetting Unlocker
+11-29-2018 16:13:04. : LockOpener (PID:465) : sev=Debug : Rotate: 1024 Steps
+11-29-2018 16:13:22. : LockOpener (PID:465) : sev=Info : Rotate (Reseting to zero): -21
+11-29-2018 16:13:22. : LockOpener (PID:465) : sev=Debug : Rotate: 281 Steps
+11-29-2018 16:13:27. : LockOpener (PID:465) : sev=Info : Turned both stepper motors off
+11-29-2018 16:13:28. : LockOpener (PID:465) : sev=Info : Done Combination Sequence!
+11-29-2018 16:13:53. : LockOpener (PID:465) : sev=Info : Command Recieved: (id = 29) (data = 1) (completed = 0) (time = 21:13:53) 
+11-29-2018 16:13:53. : LockOpener (PID:465) : sev=Info : SQLite3: [Query] UPDATE commands SET completed = 1 WHERE id = 29;
+11-29-2018 16:13:53. : LockOpener (PID:465) : sev=Info : SQLite3: [Query] SELECT * FROM data WHERE id = 1;
+11-29-2018 16:13:53. : LockOpener (PID:465) : sev=Info : Got Combo: (id = 1) (num1 = 10) (num2 = 22) (num3 = 29) 
+11-29-2018 16:13:53. : LockOpener (PID:465) : sev=Info : Parsed: 10 - 22 - 29
+11-29-2018 16:13:53. : LockOpener (PID:465) : sev=Info : Starting Turning!
+11-29-2018 16:13:53. : LockOpener (PID:465) : sev=Info : Rotate (Num1): -110
+11-29-2018 16:13:53. : LockOpener (PID:465) : sev=Debug : Rotate: 1408 Steps
+11-29-2018 16:14:18. : LockOpener (PID:465) : sev=Info : Rotate (Num2): 40
+11-29-2018 16:14:18. : LockOpener (PID:465) : sev=Debug : Rotate: 512 Steps
+11-29-2018 16:14:26. : LockOpener (PID:465) : sev=Info : Rotate: 12
+11-29-2018 16:14:26. : LockOpener (PID:465) : sev=Debug : Rotate: 153 Steps
+11-29-2018 16:14:30. : LockOpener (PID:465) : sev=Info : Rotate (Num3): -33
+11-29-2018 16:14:30. : LockOpener (PID:465) : sev=Debug : Rotate: 422 Steps
+11-29-2018 16:14:38. : LockOpener (PID:465) : sev=Info : Unlocking Lock
+11-29-2018 16:14:38. : LockOpener (PID:465) : sev=Debug : Rotate: 1024 Steps
+11-29-2018 16:14:56. : LockOpener (PID:465) : sev=Info : Resetting Unlocker
+11-29-2018 16:14:56. : LockOpener (PID:465) : sev=Debug : Rotate: 1024 Steps
+11-29-2018 16:15:14. : LockOpener (PID:465) : sev=Info : Rotate (Reseting to zero): -29
+11-29-2018 16:15:14. : LockOpener (PID:465) : sev=Debug : Rotate: 384 Steps
+11-29-2018 16:15:21. : LockOpener (PID:465) : sev=Info : Turned both stepper motors off
+11-29-2018 16:15:22. : LockOpener (PID:465) : sev=Info : Done Combination Sequence!
+11-29-2018 16:16:15. : LockOpener (PID:454) : sev=Info : System Started!
+11-29-2018 16:16:15. : LockOpener (PID:454) : sev=Info : Watchdog has been enabled with timeout 8 seconds.
+11-29-2018 16:20:52. : LockOpener (PID:454) : sev=Warning : Program Exited (by Ctrl-C or systemd)!.
+11-29-2018 16:20:52. : LockOpener (PID:454) : sev=Info : Watchdog has been disabled.
+11-29-2018 16:20:52. : LockOpener (PID:454) : sev=Info : Turned both stepper motors off
+11-29-2018 16:20:53. : LockOpener (PID:605) : sev=Info : System Started!
+11-29-2018 16:20:53. : LockOpener (PID:605) : sev=Info : Watchdog has been enabled with timeout 10 seconds.
+11-29-2018 16:25:42. : LockOpener (PID:455) : sev=Info : System Started!
+11-29-2018 16:25:42. : LockOpener (PID:455) : sev=Info : Watchdog has been enabled with timeout 10 seconds.

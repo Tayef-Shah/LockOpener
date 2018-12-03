@@ -5,7 +5,7 @@
 The log and database files after the demo run can be found in the `/demo` directory.
 Additionally, the service file used by `systemd` to run the `LockOpener` binary can also be found in the `/demo` directory.
 
-### Permissions ont he Raspberry Pi
+### Permissions on the Raspberry Pi
 - Both the compiled binary and the debug binary needs to marked as executable
 ```
 chmod +x builds/debug && chmod +x LockOpener
