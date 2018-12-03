@@ -29,10 +29,11 @@ void safeExit() {
 
 // Handles Ctrl-C and exit
 void sig_handler(int signo) {
-	if (signo == SIGINT || signo == SIGTERM) {
+	if (signo == SIGINT) {
 		writeLog(lockOpener.logFile, lockOpener.name, WARNING, "Program Exited (by Ctrl-C or systemd)!.");
 		stopWatchDog();
-		safeExit();
+		stepperOff(lockOpener.gpio);
+		exit(0);
 	}
 }
 
@@ -40,6 +41,7 @@ static int gotCombo(void *cbArgs, int argc, char **argv, char **azColName) {
 	int num1 = -1, num2 = -1, num3 = -1;
 
 	//Parse Combination
+	writeLog(lockOpener.logFile, lockOpener.name, INFO, "Parsing Lock Combination...");
 	char gotCombo[1024];
 	strcpy(gotCombo, "Got Combo: ");
 	for (int i = 0; i < argc; i++) {
@@ -58,12 +60,12 @@ static int gotCombo(void *cbArgs, int argc, char **argv, char **azColName) {
 			num3 = (int)strtol(argv[i], (char **)NULL, 10);
 		}
 	}
-	writeLog(lockOpener.logFile, lockOpener.name, INFO, gotCombo);
+	writeLog(lockOpener.logFile, lockOpener.name, DEBUG, gotCombo);
 
 	// Log Parsed Lock Combination
 	char parseDB[1024];
 	snprintf(parseDB, 1024, "Parsed: %d - %d - %d", num1, num2, num3);
-	writeLog(lockOpener.logFile, lockOpener.name, INFO, parseDB);
+	writeLog(lockOpener.logFile, lockOpener.name, DEBUG, parseDB);
 
 	// Do Lock opening sequence
 	turn(lockOpener.gpio, lockOpener.maxNum, num1, num2, num3);
@@ -82,6 +84,7 @@ static int commandsQueued(void *cbArgs, int argc, char **argv, char **azColName)
 	char query[1024];
 
 	// Parse DB Data
+	writeLog(lockOpener.logFile, lockOpener.name, INFO, "Fetching command queued from DB...");
 	char cmdRecieved[1024];
 	strcpy(cmdRecieved, "Command Recieved: ");
 	for (int i = 0; i < argc; i++) {
@@ -98,7 +101,7 @@ static int commandsQueued(void *cbArgs, int argc, char **argv, char **azColName)
 			commandID = argv[i];
 		}
 	}
-	writeLog(lockOpener.logFile, lockOpener.name, INFO, cmdRecieved);
+	writeLog(lockOpener.logFile, lockOpener.name, DEBUG, cmdRecieved);
 
 	// Update DB
 	strcpy(query, "");
@@ -110,7 +113,7 @@ static int commandsQueued(void *cbArgs, int argc, char **argv, char **azColName)
 	char queryBuffer[2048];
 	strcpy(queryBuffer, "SQLite3: [Query] ");
 	strcat(queryBuffer, query);
-	writeLog(lockOpener.logFile, lockOpener.name, INFO, queryBuffer);
+	writeLog(lockOpener.logFile, lockOpener.name, DEBUG, queryBuffer);
 
 	// Execute DB Query
 	if (sqlite3_exec(lockOpener.db, query, 0, 0, &(lockOpener.zErrMsg)) != SQLITE_OK) {
@@ -128,7 +131,7 @@ static int commandsQueued(void *cbArgs, int argc, char **argv, char **azColName)
 	strcpy(queryBuffer, "");
 	strcat(queryBuffer, "SQLite3: [Query] ");
 	strcat(queryBuffer, query);
-	writeLog(lockOpener.logFile, lockOpener.name, INFO, queryBuffer);
+	writeLog(lockOpener.logFile, lockOpener.name, DEBUG, queryBuffer);
 
 	// Execute DB Query
 	if (sqlite3_exec(lockOpener.db, query, gotCombo, cbArgs, &(lockOpener.zErrMsg)) != SQLITE_OK) {
@@ -168,7 +171,7 @@ int main(int argc, const char* const argv[]) {
 
 	//Handle Ctrl-C
 	if (signal(SIGINT, sig_handler) == SIG_ERR) {
-		writeLog(lockOpener.logFile, lockOpener.name, ERROR, "Failed to initialize sig_handler!");
+		writeLog(lockOpener.logFile, lockOpener.name, CRITICAL, "Failed to initialize sig_handler!");
 		safeExit();
 	}
 

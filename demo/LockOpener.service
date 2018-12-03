@@ -1,0 +1,12 @@
+[Unit]
+Description=Service for LockOpener
+After=multi-user.target
+
+[Service]
+Type=idle
+WorkingDirectory=/home/pi/LockOpener
+ExecStart=/home/pi/LockOpener/LockOpener
+KillSignal=SIGINT
+
+[Install]
+WantedBy=multi-user.target

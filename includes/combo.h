@@ -44,7 +44,7 @@ int turn(GPIO_Handle gpio, int max, int first, int second, int third){
 
     // Log Rotation
 	snprintf(logBuffer, 512, "Rotate (Num1): %d", -(2* max + (max-first)));
-	writeLog(lockOpener.logFile, lockOpener.name, INFO, logBuffer);
+	writeLog(lockOpener.logFile, lockOpener.name, DEBUG, logBuffer);
 
 	//CCW looking directly at motor
 	totalRotations += rotate(gpio, -(2 * max + (max - first)), max);             //First rotation to first number, SETS to zero 
@@ -53,17 +53,17 @@ int turn(GPIO_Handle gpio, int max, int first, int second, int third){
     
 	// Log Rotation
 	snprintf(logBuffer, 512, "Rotate (Num2): %d", max);
-	writeLog(lockOpener.logFile, lockOpener.name, INFO, logBuffer);
+	writeLog(lockOpener.logFile, lockOpener.name, DEBUG, logBuffer);
 
 	//(CW) Second rotation to second number, SETS to zero
 	totalRotations += rotate(gpio, max, max);
     if(first > second){
 		snprintf(logBuffer, 512, "Rotate: %d", max - first + second);
-		writeLog(lockOpener.logFile, lockOpener.name, INFO, logBuffer);
+		writeLog(lockOpener.logFile, lockOpener.name, DEBUG, logBuffer);
 		totalRotations += rotate(gpio, max-first+second, max);
     } else {
 		snprintf(logBuffer, 512, "Rotate: %d", second-first);
-		writeLog(lockOpener.logFile, lockOpener.name, INFO, logBuffer);
+		writeLog(lockOpener.logFile, lockOpener.name, DEBUG, logBuffer);
 		totalRotations += rotate(gpio, second - first, max);
     }
 	usleep(1000000);
@@ -71,11 +71,11 @@ int turn(GPIO_Handle gpio, int max, int first, int second, int third){
     //Roatation to last number
     if(second < third) {
 		snprintf(logBuffer, 512, "Rotate (Num3): %d", -(max - (third - second)));
-		writeLog(lockOpener.logFile, lockOpener.name, INFO, logBuffer);
+		writeLog(lockOpener.logFile, lockOpener.name, DEBUG, logBuffer);
 		totalRotations += rotate(gpio, -(max-(third-second)), max);
     } else {
 		snprintf(logBuffer, 512, "Rotate (Num3): %d", -(second - third));
-		writeLog(lockOpener.logFile, lockOpener.name, INFO, logBuffer);
+		writeLog(lockOpener.logFile, lockOpener.name, DEBUG, logBuffer);
 		totalRotations += rotate(gpio, -(second - third), max);
     }
 	usleep(1000000);
@@ -88,7 +88,7 @@ int reset(GPIO_Handle gpio, int num, int max){
 	// Log Reset Action
 	char logBuffer[512];
 	snprintf(logBuffer, 512, "Rotate (Reseting to zero): %d", -num);
-	writeLog(lockOpener.logFile, lockOpener.name, INFO, logBuffer);
+	writeLog(lockOpener.logFile, lockOpener.name, DEBUG, logBuffer);
 
 	// Reset the lock turner to zero and turn off both steppers
 	rotate(gpio, -num - 1, max);
@@ -98,13 +98,12 @@ int reset(GPIO_Handle gpio, int num, int max){
 
 // [Deprecated] Turns the servo motor
 int pull(FILE* piblaster){
-	writeLog(lockOpener.logFile, lockOpener.name, DEBUG, "Started Servo (Down)");
+	writeLog(lockOpener.logFile, lockOpener.name, INFO, "Started Servo (Down)");
 	setServoPosition(piblaster, 0);
 
-	writeLog(lockOpener.logFile, lockOpener.name, DEBUG, "Started Servo (Up)");
+	writeLog(lockOpener.logFile, lockOpener.name, INFO, "Started Servo (Up)");
 	setServoPosition(piblaster, 1);
 	usleep(1000000);
-    //how to check if it didn't work?
     return 0;
 }
 
